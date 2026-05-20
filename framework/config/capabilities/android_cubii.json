@@ -1,0 +1,12 @@
+{
+  "platformName": "Android",
+  "appium:deviceName": "Android Device",
+  "appium:automationName": "UiAutomator2",
+  "appium:appPackage": "com.cubii",
+  "appium:appActivity": "com.cubii.ui.SplashActivity",
+  "appium:noReset": true,
+  "appium:newCommandTimeout": 300,
+  "appium:autoGrantPermissions": true,
+  "appium:disableWindowAnimation": true,
+  "appium:chromedriverAutodownload": true
+}

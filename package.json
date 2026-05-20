@@ -1,0 +1,8 @@
+{
+  "name": "cubii-qa-automation",
+  "private": true,
+  "description": "Local Allure CLI for BDD report generation (no global npm install required).",
+  "devDependencies": {
+    "allure-commandline": "^2.34.0"
+  }
+}
