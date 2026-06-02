@@ -184,9 +184,52 @@ class HomePage(BasePage):
 
     # Three-dot "Settings" entry point on home top-right.
     SETTINGS_HIGHLIGHT = (AppiumBy.ID, "com.cubii:id/viewSettingsHighlight")
-    SETTINGS_HIGHLIGHT_FALLBACK = (
+    SETTINGS_HIGHLIGHT_XPATH = (
         AppiumBy.XPATH,
         '//android.view.View[@resource-id="com.cubii:id/viewSettingsHighlight"]',
+    )
+    SETTINGS_HIGHLIGHT_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/viewSettingsHighlight")',
+    )
+
+    # My Account entry inside the Settings menu (1st row in com.cubii:id/rv_more).
+    MY_ACCOUNT_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[1]",
+    )
+    MY_ACCOUNT_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(4)',
+    )
+
+    # Workout Reminder entry inside the Settings menu (2nd row in com.cubii:id/rv_more).
+    WORKOUT_REMINDER_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[2]",
+    )
+    WORKOUT_REMINDER_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(5)',
+    )
+    WORKOUT_REMINDER_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Workout Reminder")',
+    )
+    WORKOUT_REMINDER_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="Workout Reminder"]',
+    )
+    WORKOUT_REMINDER_SCREEN_TITLE = "Workout Reminder"
+    WORKOUT_REMINDER_TOOLBAR_TITLE_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/toolbar_title" and @text="Workout Reminder"]',
+    )
+    WORKOUT_REMINDER_TOOLBAR_TITLE_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/toolbar_title").text("Workout Reminder")',
     )
 
     # Logout entry inside the "More" / Settings menu (8th row in com.cubii:id/rv_more).
@@ -204,11 +247,84 @@ class HomePage(BasePage):
         'new UiSelector().textMatches("(?i)log\\s*out")',
     )
 
+    # More / Settings menu header — profile display name (com.cubii:id/textView22).
+    MORE_MENU_PROFILE_NAME_ID = "com.cubii:id/textView22"
+    MORE_MENU_PROFILE_NAME_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView22"]'
+    )
+    MORE_MENU_PROFILE_NAME_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/textView22")'
+    )
+
+    MORE_MENU_OPTION_TEXTVIEW_ID = "com.cubii:id/textView24"
+    MORE_MENU_OPTIONS = (
+        "My Account",
+        "Workout Reminder",
+        "Settings",
+        "Help",
+        "Report a Problem",
+        "Share Cubii",
+        "The Cubii Store",
+        "Logout",
+    )
+
+    EDIT_PROFILE_BUTTON = (AppiumBy.ID, "com.cubii:id/btn_edit")
+    EDIT_PROFILE_BUTTON_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[@resource-id="com.cubii:id/btn_edit"]',
+    )
+    EDIT_PROFILE_BUTTON_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/btn_edit")',
+    )
+    PREVIEW_PROFILE_BUTTON = (AppiumBy.ID, "com.cubii:id/btn_preview")
+    PREVIEW_PROFILE_BUTTON_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[@resource-id="com.cubii:id/btn_preview"]',
+    )
+    PREVIEW_PROFILE_BUTTON_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/btn_preview")',
+    )
+    EDIT_PROFILE_TOOLBAR_TITLE = (AppiumBy.ID, "com.cubii:id/toolbar_title")
+    EDIT_PROFILE_TOOLBAR_TITLE_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/toolbar_title" and @text="Edit Profile"]',
+    )
+    EDIT_PROFILE_TOOLBAR_TITLE_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/toolbar_title").text("Edit Profile")',
+    )
+    EDIT_PROFILE_TOOLBAR_TITLE_TEXT_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Edit Profile")',
+    )
+    EDIT_PROFILE_SCREEN_TITLE = "Edit Profile"
+    MY_ACCOUNT_PROFILE_PICTURE = (AppiumBy.ID, "com.cubii:id/imgUserProfilePictureMyAccount")
+
     # Final "Logout" confirmation button inside the modal.
     LOGOUT_CONFIRM_BUTTON = (AppiumBy.ID, "com.cubii:id/btn_logout")
     LOGOUT_CONFIRM_BUTTON_FALLBACK = (
         AppiumBy.XPATH,
         '//android.widget.Button[@resource-id="com.cubii:id/btn_logout"]',
+    )
+    LOGOUT_CONFIRM_BUTTON_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/btn_logout")',
+    )
+
+    BACK_BUTTON = (AppiumBy.ID, "com.cubii:id/iv_back")
+    BACK_BUTTON_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.LinearLayout[@resource-id="com.cubii:id/iv_back"]',
+    )
+    BACK_BUTTON_XPATH_ANY = (
+        AppiumBy.XPATH,
+        '//*[@resource-id="com.cubii:id/iv_back"]',
+    )
+    BACK_BUTTON_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/iv_back")',
     )
 
     def tap_get_started(self):
@@ -1408,17 +1524,308 @@ class HomePage(BasePage):
         )
         self.LOGGER.info("Performed downward scroll gesture.")
 
+    @staticmethod
+    def _locator_triplets(resource_id: str, xpath: str, uiautomator: str) -> tuple[tuple, ...]:
+        return (
+            (AppiumBy.ID, resource_id),
+            (AppiumBy.ANDROID_UIAUTOMATOR, uiautomator),
+            (AppiumBy.XPATH, xpath),
+        )
+
+    @staticmethod
+    def _more_menu_option_locators(label: str) -> tuple[tuple, ...]:
+        xpath = (
+            f'//android.widget.TextView[@resource-id="{HomePage.MORE_MENU_OPTION_TEXTVIEW_ID}" '
+            f'and @text="{label}"]'
+        )
+        uiautomator = f'new UiSelector().text("{label}")'
+        return (
+            (AppiumBy.ANDROID_UIAUTOMATOR, uiautomator),
+            (AppiumBy.XPATH, xpath),
+        )
+
+    @staticmethod
+    def _is_visible_one_of(wait: WebDriverWait, locator_pairs: tuple[tuple, ...]) -> bool:
+        for by, locator in locator_pairs:
+            try:
+                wait.until(ec.visibility_of_element_located((by, locator)))
+                return True
+            except Exception:
+                continue
+        return False
+
+    def _assert_visible_one_of(
+        self, wait: WebDriverWait, locator_pairs: tuple[tuple, ...], description: str
+    ) -> None:
+        if not self._is_visible_one_of(wait, locator_pairs):
+            raise AssertionError(f"More menu: {description} not visible.")
+
+    def _read_visible_text_one_of(self, locator_triplets: tuple[tuple, ...]) -> str | None:
+        for by, locator in locator_triplets:
+            try:
+                for el in self.driver.find_elements(by, locator):
+                    if not el.is_displayed():
+                        continue
+                    text = (el.text or el.get_attribute("text") or "").strip()
+                    if text:
+                        return text
+            except Exception:
+                continue
+        return None
+
+    def verify_more_menu_profile_name(self) -> None:
+        self.LOGGER.info("Verifying More menu profile name (`textView22`).")
+        name_triplets = self._locator_triplets(
+            self.MORE_MENU_PROFILE_NAME_ID,
+            self.MORE_MENU_PROFILE_NAME_XPATH,
+            self.MORE_MENU_PROFILE_NAME_UIAUTOMATOR,
+        )
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        self._assert_visible_one_of(wait, name_triplets, "profile name (textView22)")
+        profile_name = self._read_visible_text_one_of(name_triplets)
+        if not profile_name:
+            raise AssertionError("More menu: profile name (`textView22`) is empty.")
+        self.LOGGER.info("More menu profile name verified: %r.", profile_name)
+
+    def verify_more_menu_options(self) -> None:
+        self.LOGGER.info(
+            "Verifying More menu options (%s).", ", ".join(self.MORE_MENU_OPTIONS)
+        )
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        missing = []
+        for label in self.MORE_MENU_OPTIONS:
+            locators = self._more_menu_option_locators(label)
+            if self._is_visible_one_of(wait, locators):
+                self.LOGGER.info("More menu option visible: %r.", label)
+                continue
+            missing.append(label)
+        if missing:
+            raise AssertionError(
+                "More menu options not visible: " + ", ".join(missing) + "."
+            )
+        self.LOGGER.info("All More menu options verified.")
+
     def tap_settings_highlight(self):
         self.LOGGER.info("Tapping three-dot Settings highlight on home screen.")
-        try:
-            btn = self.wait.until(ec.element_to_be_clickable(self.SETTINGS_HIGHLIGHT))
-        except TimeoutException:
-            self.LOGGER.info("Primary Settings locator failed; trying XPath fallback.")
-            btn = self.wait.until(
-                ec.element_to_be_clickable(self.SETTINGS_HIGHLIGHT_FALLBACK)
+        for locator in (
+            self.SETTINGS_HIGHLIGHT,
+            self.SETTINGS_HIGHLIGHT_XPATH,
+            self.SETTINGS_HIGHLIGHT_UIAUTOMATOR,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Three-dot Settings tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Settings highlight locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException(
+            "Three-dot Settings highlight (`viewSettingsHighlight`) could not be located."
+        )
+
+    def tap_my_account_menu_item(self):
+        self.LOGGER.info("Tapping My Account entry in Settings menu.")
+        for locator in (
+            self.MY_ACCOUNT_MENU_ITEM,
+            self.MY_ACCOUNT_MENU_ITEM_UIAUTOMATOR,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("My Account menu item tapped via `%s`.", locator[1])
+                self.verify_my_account_screen_visible()
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "My Account menu locator `%s` failed; trying next.", locator[1]
+                )
+            except AssertionError:
+                self.LOGGER.info(
+                    "My Account screen not confirmed after tap via `%s`; trying next.",
+                    locator[1],
+                )
+        raise TimeoutException("My Account menu item could not be located.")
+
+    def tap_workout_reminder_menu_item(self):
+        self.LOGGER.info("Tapping Workout Reminder entry in Settings menu.")
+        for locator in (
+            self.WORKOUT_REMINDER_MENU_ITEM,
+            self.WORKOUT_REMINDER_MENU_ITEM_UIAUTOMATOR,
+            self.WORKOUT_REMINDER_MENU_ITEM_BY_TEXT,
+            self.WORKOUT_REMINDER_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Workout Reminder menu item tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Workout Reminder menu locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException("Workout Reminder menu item could not be located.")
+
+    def verify_workout_reminder_screen_visible(self):
+        self.LOGGER.info("Verifying Workout Reminder screen is visible.")
+        for locator in (
+            self.WORKOUT_REMINDER_TOOLBAR_TITLE_XPATH,
+            self.WORKOUT_REMINDER_TOOLBAR_TITLE_UIAUTOMATOR,
+        ):
+            try:
+                WebDriverWait(self.driver, Settings.EXPLICIT_WAIT).until(
+                    ec.visibility_of_element_located(locator)
+                )
+                self.LOGGER.info("Workout Reminder screen verified via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                continue
+        raise AssertionError(
+            "Workout Reminder screen not verified. Expected toolbar title "
+            f"{self.WORKOUT_REMINDER_SCREEN_TITLE!r} (`toolbar_title`)."
+        )
+
+    def tap_edit_profile_menu_item(self):
+        self.LOGGER.info("Tapping EDIT PROFILE button (`btn_edit`) on My Account screen.")
+        clicked = False
+        for locator in (
+            self.EDIT_PROFILE_BUTTON,
+            self.EDIT_PROFILE_BUTTON_XPATH,
+            self.EDIT_PROFILE_BUTTON_UIAUTOMATOR,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("EDIT PROFILE button tapped via `%s`.", locator[1])
+                clicked = True
+                break
+            except TimeoutException:
+                self.LOGGER.info(
+                    "EDIT PROFILE button locator `%s` failed; trying next.", locator[1]
+                )
+        if not clicked:
+            raise TimeoutException("EDIT PROFILE button (`btn_edit`) could not be located.")
+
+    def tap_preview_profile_button(self):
+        self.LOGGER.info("Tapping PREVIEW button (`btn_preview`) on My Account screen.")
+        clicked = False
+        for locator in (
+            self.PREVIEW_PROFILE_BUTTON,
+            self.PREVIEW_PROFILE_BUTTON_XPATH,
+            self.PREVIEW_PROFILE_BUTTON_UIAUTOMATOR,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("PREVIEW button tapped via `%s`.", locator[1])
+                clicked = True
+                break
+            except TimeoutException:
+                self.LOGGER.info(
+                    "PREVIEW button locator `%s` failed; trying next.", locator[1]
+                )
+        if not clicked:
+            raise TimeoutException("PREVIEW button (`btn_preview`) could not be located.")
+
+    def verify_edit_profile_screen_visible(self):
+        self.LOGGER.info("Verifying Edit Profile screen toolbar title is visible.")
+        locators = (
+            (self.EDIT_PROFILE_TOOLBAR_TITLE_XPATH, "toolbar_title (xpath)"),
+            (self.EDIT_PROFILE_TOOLBAR_TITLE_UIAUTOMATOR, "toolbar_title (UiAutomator)"),
+            (self.EDIT_PROFILE_TOOLBAR_TITLE, "toolbar_title (id)"),
+            (self.EDIT_PROFILE_TOOLBAR_TITLE_TEXT_UIAUTOMATOR, "Edit Profile text (UiAutomator)"),
+        )
+        last_err = None
+        for locator, label in locators:
+            try:
+                element = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT).until(
+                    ec.visibility_of_element_located(locator)
+                )
+                title = (element.text or "").strip()
+                if title and title != self.EDIT_PROFILE_SCREEN_TITLE:
+                    raise AssertionError(
+                        f"Edit Profile toolbar title mismatch via {label}: "
+                        f"expected {self.EDIT_PROFILE_SCREEN_TITLE!r}, got {title!r}."
+                    )
+                if title:
+                    self.LOGGER.info(
+                        "Edit Profile screen verified via %s: %r", label, title
+                    )
+                    return
+                if locator == self.EDIT_PROFILE_TOOLBAR_TITLE:
+                    self.LOGGER.info(
+                        "Edit Profile screen verified via %s (title element visible).",
+                        label,
+                    )
+                    return
+            except (TimeoutException, AssertionError) as exc:
+                last_err = exc
+                self.LOGGER.info("Edit Profile title check via %s did not pass.", label)
+                continue
+        raise AssertionError(
+            "Edit Profile screen not verified. Expected toolbar title "
+            f"{self.EDIT_PROFILE_SCREEN_TITLE!r} (`toolbar_title`). Last error: {last_err!r}"
+        )
+
+    def verify_my_account_screen_visible(self):
+        self.LOGGER.info("Verifying My Account screen is visible.")
+        for locator in (
+            self.MY_ACCOUNT_PROFILE_PICTURE,
+            self.EDIT_PROFILE_BUTTON,
+            self.EDIT_PROFILE_BUTTON_XPATH,
+        ):
+            try:
+                WebDriverWait(self.driver, 3).until(
+                    ec.visibility_of_element_located(locator)
+                )
+                self.LOGGER.info("My Account screen verified via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                continue
+        raise AssertionError(
+            "My Account screen not verified. Expected profile picture or "
+            "`btn_edit` to be visible."
+        )
+
+    def tap_back_button(self):
+        self.LOGGER.info("Tapping back button (`iv_back`).")
+        for locator in (
+            self.BACK_BUTTON_XPATH,
+            self.BACK_BUTTON,
+            self.BACK_BUTTON_UIAUTOMATOR,
+            self.BACK_BUTTON_XPATH_ANY,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Back button tapped via `%s`.", locator[1])
+                time.sleep(0.4)
+                return
+            except TimeoutException:
+                continue
+        raise TimeoutException("Back button (`iv_back`) could not be located.")
+
+    def navigate_back_to_more_menu(self, max_backs=3):
+        self.LOGGER.info("Navigating back to More menu (up to %s tap(s)).", max_backs)
+        for attempt in range(max_backs):
+            if self._is_logout_menu_available():
+                self.LOGGER.info("More menu visible after %s back tap(s).", attempt)
+                return
+            self.tap_back_button()
+        if not self._is_logout_menu_available():
+            raise AssertionError(
+                "More menu with Logout was not visible after navigating back from Edit Profile."
             )
-        btn.click()
-        self.LOGGER.info("Three-dot Settings tapped.")
+
+    def _is_logout_menu_available(self, timeout=2):
+        short_wait = WebDriverWait(self.driver, timeout)
+        for locator in (
+            self.LOGOUT_MENU_ITEM_BY_TEXT,
+            self.LOGOUT_MENU_ITEM,
+            self.LOGOUT_MENU_ITEM_FALLBACK,
+        ):
+            try:
+                element = short_wait.until(ec.visibility_of_element_located(locator))
+                if element.is_displayed():
+                    return True
+            except TimeoutException:
+                continue
+        return False
 
     def tap_logout_menu_item(self):
         self.LOGGER.info("Tapping Logout entry in Settings menu.")
@@ -1439,16 +1846,15 @@ class HomePage(BasePage):
 
     def tap_logout_confirm(self):
         self.LOGGER.info("Tapping final Logout confirmation button.")
-        try:
-            btn = self.wait.until(
-                ec.element_to_be_clickable(self.LOGOUT_CONFIRM_BUTTON)
-            )
-        except TimeoutException:
-            self.LOGGER.info(
-                "Primary btn_logout locator failed; trying XPath fallback."
-            )
-            btn = self.wait.until(
-                ec.element_to_be_clickable(self.LOGOUT_CONFIRM_BUTTON_FALLBACK)
-            )
-        btn.click()
-        self.LOGGER.info("Logout confirmed.")
+        for locator in (
+            self.LOGOUT_CONFIRM_BUTTON,
+            self.LOGOUT_CONFIRM_BUTTON_FALLBACK,
+            self.LOGOUT_CONFIRM_BUTTON_UIAUTOMATOR,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Logout confirmed via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                continue
+        raise TimeoutException("Logout confirmation button (`btn_logout`) could not be located.")

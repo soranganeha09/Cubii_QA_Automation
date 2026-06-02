@@ -106,6 +106,19 @@ class FTUEPage(BasePage):
     NEXT8_BUTTON = (AppiumBy.ID, "com.cubii:id/btnNextConfigureAvatar")
     NEXT9_BUTTON = (AppiumBy.ID, "com.cubii:id/btnNextConfigureAvatar")
     GOT_IT_BUTTON = (AppiumBy.ID, "com.cubii:id/btnGotIt")
+    GOT_IT_BUTTON_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[@resource-id="com.cubii:id/btnGotIt"]',
+    )
+    GOT_IT_CONFIGURE_AVATAR_BUTTON = (AppiumBy.ID, "com.cubii:id/btnGotItConfigureAvatar")
+    GOT_IT_CONFIGURE_AVATAR_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[@resource-id="com.cubii:id/btnGotItConfigureAvatar"]',
+    )
+    GOT_IT_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//*[contains(translate(@text, "goti", "GOTI"), "GOT IT")]',
+    )
     YES_BUTTON = (AppiumBy.ID, "com.cubii:id/btnYes")
     YES_BUTTON_UIAUTOMATOR = (
         AppiumBy.ANDROID_UIAUTOMATOR,
@@ -307,23 +320,9 @@ class FTUEPage(BasePage):
             self.LOGGER.info("Dynamic flow not detected on this checkpoint.")
             return False
 
-        switched_to_webview = False
         try:
-            contexts = self.driver.contexts
-            self.LOGGER.info("Available contexts: %s", contexts)
-            webview_context = next((ctx for ctx in contexts if "WEBVIEW" in ctx.upper()), None)
-            if webview_context:
-                self.driver.switch_to.context(webview_context)
-                switched_to_webview = True
-                self.LOGGER.info("Context switched to `%s`.", webview_context)
-            else:
-                self.LOGGER.warning("WEBVIEW context not available; trying Close tab in NATIVE_APP.")
-
-            if switched_to_webview:
-                self.driver.switch_to.context("NATIVE_APP")
-                self.LOGGER.info("Switched back to NATIVE_APP before tapping Close tab.")
-
-            self.click_with_fallbacks(
+            # Keep this flow in NATIVE_APP first to avoid Chromedriver/WebView dependency.
+            close_tab_clicked = self.click_with_fallbacks(
                 [
                     self.CLOSE_TAB_BUTTON,
                     self.CLOSE_TAB_BUTTON_ID,
@@ -334,17 +333,36 @@ class FTUEPage(BasePage):
                 label="Close tab",
                 trigger_dynamic=False,
             )
+            if not close_tab_clicked:
+                self.LOGGER.info("Close tab not visible; attempting Android back as fallback.")
+                self.driver.back()
+
             self.wellness_dynamic_handled_once = True
             self.LOGGER.info("Marked dynamic Start Today flow as handled once.")
-            self.LOGGER.info("WebView/Chrome close tab handling completed.")
+            self.LOGGER.info("WebView/Chrome interruption handling completed.")
             return True
         except WebDriverException as exc:
-            self.LOGGER.warning("WebView handling failed, continuing execution. Error: %s", exc)
+            self.LOGGER.warning("Dynamic Start Today handling failed, continuing execution. Error: %s", exc)
             try:
                 self.driver.switch_to.context("NATIVE_APP")
             except WebDriverException:
                 pass
             return False
+
+    def _click_got_it_if_present(self, timeout=4):
+        """Dismiss FTUE Got It overlays (generic, configure-avatar, or text fallback)."""
+        return self.click_with_fallbacks(
+            [
+                self.GOT_IT_BUTTON,
+                self.GOT_IT_CONFIGURE_AVATAR_BUTTON,
+                self.GOT_IT_BUTTON_XPATH,
+                self.GOT_IT_CONFIGURE_AVATAR_XPATH,
+                self.GOT_IT_TEXT_XPATH,
+            ],
+            timeout=timeout,
+            label="Got It",
+            trigger_dynamic=False,
+        )
 
     def handle_ftue_walkthrough(self):
         self.LOGGER.info("Handling FTUE walkthrough Next1 to Next9 sequence.")
@@ -380,27 +398,40 @@ class FTUEPage(BasePage):
             label="Generic Next fallback",
             trigger_dynamic=False,
         )
-        self.click_if_present(
-            self.GOT_IT_BUTTON, timeout=4, optional=True, label="Got It", trigger_dynamic=False
-        )
+        self._click_got_it_if_present(timeout=4)
 
-    def handle_notification_and_progress_ftue(self):
-        self.LOGGER.info("Handling notification permission and Progress FTUE.")
+    def handle_notification_permission_if_present(self) -> None:
+        """Tap in-app notification prompt YES and system Allow when the modal is visible."""
+        self.LOGGER.info("Handling notification permission prompt if present.")
         self.click_with_fallbacks(
             [self.YES_BUTTON, self.YES_BUTTON_UIAUTOMATOR, self.YES_BUTTON_XPATH],
             timeout=4,
             label="Notification Yes",
+            trigger_dynamic=False,
         )
         self.click_with_fallbacks(
             [self.ALLOW_BUTTON, self.ALLOW_BUTTON_UIAUTOMATOR, self.ALLOW_BUTTON_XPATH],
             timeout=4,
             label="System Allow",
+            trigger_dynamic=False,
         )
 
-        self.click_if_present(self.PROGRESS_TAB, timeout=6, optional=True, label="Progress tab")
-        self.click_if_present(self.NEXT_BUTTON, timeout=4, optional=True, label="Progress Next")
-        self.click_if_present(self.GOT_IT_BUTTON, timeout=4, optional=True, label="Progress Got It")
+    def handle_progress_tab_ftue_if_present(self) -> None:
+        """Progress tab coachmarks (Next / Got It) after main walkthrough."""
+        self.LOGGER.info("Handling Progress tab FTUE if present.")
+        self.click_if_present(
+            self.PROGRESS_TAB, timeout=6, optional=True, label="Progress tab", trigger_dynamic=False
+        )
+        self.click_if_present(
+            self.NEXT_BUTTON, timeout=4, optional=True, label="Progress Next", trigger_dynamic=False
+        )
+        self._click_got_it_if_present(timeout=4)
         self.handle_wellness_journii_webview()
+
+    def handle_notification_and_progress_ftue(self):
+        """Backward-compatible: notification permission then Progress tab FTUE."""
+        self.handle_notification_permission_if_present()
+        self.handle_progress_tab_ftue_if_present()
 
     def navigate_wellness_and_return_home(self):
         self.LOGGER.info("Navigating to Wellness Journii and returning Home.")
@@ -423,6 +454,48 @@ class FTUEPage(BasePage):
         self.click_if_present(self.HOME_TAB, timeout=6, optional=True, label="Home tab final")
         self.handle_wellness_journii_webview()
 
+    def _run_ftue_handler_sequence(self):
+        """Walkthrough, permissions, and Wellness interruptions without launch/login."""
+        self.handle_wellness_journii_webview()
+        self.handle_permission_flow()
+        self.handle_wellness_journii_webview()
+        # Product order: Next1–Next9/Got It first, then notification prompt.
+        self.handle_ftue_walkthrough()
+        self.handle_wellness_journii_webview()
+        self.handle_notification_permission_if_present()
+        self.handle_wellness_journii_webview()
+        # Fallback recheck for variants where notification prompt arrives late.
+        self.handle_notification_permission_if_present()
+        self.handle_wellness_journii_webview()
+        self.handle_progress_tab_ftue_if_present()
+        self.handle_wellness_journii_webview()
+        self.navigate_wellness_and_return_home()
+        self.handle_wellness_journii_webview()
+
+    def complete_ftue_if_present(self):
+        """
+        After manual login, OAuth, or sign up, dismiss FTUE overlays when present so
+        Home actions (e.g. Settings menu) are reachable. Does not relaunch the app
+        or sign in again.
+        """
+        if not self.is_ftue_present():
+            self.LOGGER.info("No FTUE overlays after login; skipping post-login FTUE.")
+            return False
+
+        self.LOGGER.info("FTUE overlays detected after login; running post-login FTUE handlers.")
+        self._run_ftue_handler_sequence()
+
+        if self.is_ftue_present():
+            self.LOGGER.warning(
+                "FTUE indicators still visible after first pass; retrying handler sequence."
+            )
+            self._run_ftue_handler_sequence()
+
+        self.click_if_present(self.HOME_TAB, timeout=6, optional=True, label="Home tab")
+        self.handle_wellness_journii_webview()
+        self.LOGGER.info("Post-login FTUE flow finished.")
+        return True
+
     def execute_ftue_dynamic_flow(self):
         self.launch_application()
         self.handle_wellness_journii_webview()
@@ -440,15 +513,7 @@ class FTUEPage(BasePage):
             self.LOGGER.info(
                 "CASE: app_reopened_ftue_present_without_login_or_home -> performing FTUE flow."
             )
-        self.handle_wellness_journii_webview()
-        self.handle_permission_flow()
-        self.handle_wellness_journii_webview()
-        self.handle_ftue_walkthrough()
-        self.handle_wellness_journii_webview()
-        self.handle_notification_and_progress_ftue()
-        self.handle_wellness_journii_webview()
-        self.navigate_wellness_and_return_home()
-        self.handle_wellness_journii_webview()
+        self._run_ftue_handler_sequence()
         self.validate_tab_navigation()
         self.handle_wellness_journii_webview()
 
@@ -518,6 +583,7 @@ class FTUEPage(BasePage):
             (self.NEXT8_BUTTON, "Next8"),
             (self.NEXT9_BUTTON, "Next9"),
             (self.GOT_IT_BUTTON, "Got It"),
+            (self.GOT_IT_CONFIGURE_AVATAR_BUTTON, "Got It Configure Avatar"),
             (self.YES_BUTTON, "Notification Yes"),
             (self.GET_STARTED_BUTTON, "Get Started"),
             (self.START_TODAY_BUTTON, "Start Today"),

@@ -6,14 +6,20 @@ import webbrowser
 from pathlib import Path
 
 from framework.core.driver_manager import DriverManager
+from framework.pages.edit_profile_page import EditProfilePage
+from framework.pages.preview_profile_page import PreviewProfilePage
 from framework.pages.ftue_page import FTUEPage
 from framework.pages.home_page import HomePage
 from framework.pages.in_progress_page import InProgressPage
 from framework.pages.login_page import LoginPage
+from framework.pages.signup_page import SignupPage
 from framework.pages.communitii_page import CommunitiiPage
 from framework.pages.cubii_studio_page import CubiiStudioPage
 from framework.pages.non_ble_connection import NonBleConnectionPage
+from framework.pages.wellness_journii_page import WellnessJourniiPage
+from framework.pages.notification_page import NotificationPage
 from framework.pages.upper_body_workout_page import UpperBodyWorkoutPage
+from framework.pages.workout_reminder_page import WorkoutReminderPage
 
 LOGGER = logging.getLogger("cubii_environment")
 
@@ -27,6 +33,28 @@ BOOTSTRAP_SKIP_TAGS = {
     "facebook_login",
 }
 
+# Module-level flag: persist bootstrap state across Behave scenarios in one run.
+_BOOTSTRAP_COMPLETED = False
+
+
+def reset_bootstrap_state(context=None) -> None:
+    """Reset bootstrap so the next scenario runs login+FTUE again."""
+    global _BOOTSTRAP_COMPLETED
+    _BOOTSTRAP_COMPLETED = False
+    if context is not None:
+        context.bootstrap_completed = False
+
+
+def _bootstrap_already_done(context) -> bool:
+    global _BOOTSTRAP_COMPLETED
+    return _BOOTSTRAP_COMPLETED or getattr(context, "bootstrap_completed", False)
+
+
+def _mark_bootstrap_completed(context) -> None:
+    global _BOOTSTRAP_COMPLETED
+    _BOOTSTRAP_COMPLETED = True
+    context.bootstrap_completed = True
+
 
 def before_all(context):
     logging.basicConfig(
@@ -37,15 +65,25 @@ def before_all(context):
     context.driver = DriverManager.create_driver()
     context.home_page = HomePage(context.driver)
     context.login_page = LoginPage(context.driver)
+    context.signup_page = SignupPage(context.driver)
+    context.edit_profile_page = EditProfilePage(context.driver)
+    context.preview_profile_page = PreviewProfilePage(context.driver)
     context.ftue_page = FTUEPage(context.driver)
     context.non_ble_connection_page = NonBleConnectionPage(context.driver)
     context.communitii_page = CommunitiiPage(context.driver, context.non_ble_connection_page)
     context.cubii_studio_page = CubiiStudioPage(
         context.driver, context.non_ble_connection_page
     )
+    context.wellness_journii_page = WellnessJourniiPage(
+        context.driver, context.non_ble_connection_page
+    )
+    context.notification_page = NotificationPage(
+        context.driver, context.non_ble_connection_page
+    )
     context.in_progress_page = InProgressPage(context.driver)
     context.upper_body_workout_page = UpperBodyWorkoutPage(context.driver)
-    context.bootstrap_completed = False
+    context.workout_reminder_page = WorkoutReminderPage(context.driver)
+    reset_bootstrap_state(context)
 
 
 def after_all(context):
@@ -68,19 +106,35 @@ def before_scenario(context, scenario):
         )
         return
 
-    if getattr(context, "bootstrap_completed", False):
+    if _bootstrap_already_done(context):
         LOGGER.info(
-            "Bootstrap already completed earlier in this run. Reusing onboarded app state for `%s`.",
+            "Bootstrap already completed earlier in this run. Reusing app state for `%s`.",
             scenario.name,
         )
         return
+
+    notification_page = getattr(context, "notification_page", None)
+    if notification_page is not None:
+        try:
+            if notification_page.is_on_notifications_screen():
+                LOGGER.info(
+                    "Already on notifications screen; skipping login+FTUE bootstrap "
+                    "for `%s`.",
+                    scenario.name,
+                )
+                _mark_bootstrap_completed(context)
+                return
+        except Exception as exc:
+            LOGGER.debug(
+                "Notifications screen check before bootstrap failed: %s", exc
+            )
 
     LOGGER.info(
         "Running automatic login+FTUE bootstrap before scenario `%s`.",
         scenario.name,
     )
     context.ftue_page.execute_ftue_dynamic_flow()
-    context.bootstrap_completed = True
+    _mark_bootstrap_completed(context)
     LOGGER.info("Automatic login+FTUE bootstrap completed.")
 
 

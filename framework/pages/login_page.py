@@ -112,6 +112,33 @@ class LoginPage(BasePage):
         '/android.view.View[2]/android.view.View/android.view.View/android.view.View',
     )
 
+    # Pre-authorized Facebook session: "Continue as …" (resource id is dynamic).
+    FACEBOOK_CONTINUE_AS_BUTTON = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("u_0_0_8P")',
+    )
+    FACEBOOK_CONTINUE_AS_BUTTON_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[@resource-id="u_0_0_8P"]',
+    )
+    # Must match the blue CTA ("Continue as …"), not footer copy ("By continuing…").
+    FACEBOOK_CONTINUE_AS_BUTTON_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().textContains("Continue as").className("android.widget.Button")',
+    )
+    FACEBOOK_CONTINUE_AS_BUTTON_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.Button[contains(@text,"Continue as")]',
+    )
+    FACEBOOK_CONTINUE_AS_CLICKABLE_XPATH = (
+        AppiumBy.XPATH,
+        '//*[@clickable="true" and contains(@text,"Continue as")]',
+    )
+    FACEBOOK_CONTINUE_PROMPT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().textContains("Would you like to continue")',
+    )
+
     # Facebook "Log in" button labels per locale. Whichever the device
     # currently renders is matched. Add more entries to support more languages.
     FACEBOOK_SUBMIT_BUTTON_LABELS = (
@@ -189,6 +216,13 @@ class LoginPage(BasePage):
         sign_in_button = self._get_sign_in_button(clickable=True)
         sign_in_button.click()
         self.LOGGER.info("SIGN IN tapped.")
+
+    def login_with_credentials(self, email, password):
+        self.LOGGER.info("Logging in with email `%s`.", email)
+        self.wait_for_login_screen()
+        self.enter_email(email)
+        self.enter_password(password)
+        self.tap_sign_in()
 
     def is_logged_in(self):
         self.LOGGER.info("Verifying successful login using post-login indicator.")
@@ -378,7 +412,117 @@ class LoginPage(BasePage):
             )
         view_element.send_keys(text)
 
+    def _find_facebook_continue_as_button(self):
+        """Return the visible 'Continue as …' CTA, avoiding footer 'By continuing…' text."""
+        resource_id_locators = {
+            self.FACEBOOK_CONTINUE_AS_BUTTON[1],
+            self.FACEBOOK_CONTINUE_AS_BUTTON_XPATH[1],
+        }
+        candidates = []
+        for locator in (
+            self.FACEBOOK_CONTINUE_AS_BUTTON,
+            self.FACEBOOK_CONTINUE_AS_BUTTON_XPATH,
+            self.FACEBOOK_CONTINUE_AS_BUTTON_TEXT,
+            self.FACEBOOK_CONTINUE_AS_BUTTON_TEXT_XPATH,
+            self.FACEBOOK_CONTINUE_AS_CLICKABLE_XPATH,
+        ):
+            try:
+                elements = self.driver.find_elements(*locator)
+            except WebDriverException:
+                continue
+            for element in elements:
+                if not element.is_displayed() or not element.is_enabled():
+                    continue
+                label = (element.text or element.get_attribute("content-desc") or "").strip()
+                if locator[1] in resource_id_locators or "continue as" in label.lower():
+                    candidates.append((element, locator[1], label))
+
+        if not candidates:
+            return None
+
+        # Prefer the primary blue button (usually the only Button with that label).
+        for element, locator_name, label in candidates:
+            if "button" in (element.tag_name or "").lower():
+                self.LOGGER.info(
+                    "Facebook continue-as candidate via `%s` (text=`%s`).",
+                    locator_name,
+                    label,
+                )
+                return element
+
+        element, locator_name, label = candidates[0]
+        self.LOGGER.info(
+            "Facebook continue-as candidate via `%s` (text=`%s`).",
+            locator_name,
+            label,
+        )
+        return element
+
+    def _wait_facebook_continue_screen_dismissed(self, timeout=None):
+        """Confirm OAuth left the 'Would you like to continue?' Facebook screen."""
+        wait_sec = timeout or int(os.getenv("CUBII_FB_OAUTH_WAIT_SEC", "25"))
+        oauth_wait = WebDriverWait(self.driver, wait_sec)
+        try:
+            oauth_wait.until(ec.invisibility_of_element_located(self.FACEBOOK_CONTINUE_PROMPT))
+            self.LOGGER.info("Facebook continue prompt dismissed.")
+            return True
+        except TimeoutException:
+            pass
+
+        try:
+            oauth_wait.until(
+                ec.visibility_of_element_located(self.POST_LOGIN_INDICATOR)
+            )
+            self.LOGGER.info("Cubii home indicator visible after Facebook continue.")
+            return True
+        except TimeoutException:
+            self.LOGGER.warning(
+                "Facebook continue screen still visible after tap (waited %ss).",
+                wait_sec,
+            )
+            return False
+
+    def _try_tap_facebook_continue_as(self, timeout=None):
+        """
+        Tap Facebook 'Continue as …' when a saved session exists on the device.
+        Returns True if that path was used (credential form should be skipped).
+        """
+        wait_sec = timeout or int(os.getenv("CUBII_FB_CONTINUE_PROBE_SEC", "8"))
+        probe_wait = WebDriverWait(self.driver, wait_sec)
+        try:
+            probe_wait.until(
+                ec.presence_of_element_located(self.FACEBOOK_CONTINUE_PROMPT)
+            )
+        except TimeoutException:
+            self.LOGGER.info(
+                "Facebook 'Would you like to continue' prompt not shown; using credential form."
+            )
+            return False
+
+        button = self._find_facebook_continue_as_button()
+        if button is None:
+            self.LOGGER.warning(
+                "Facebook continue prompt is visible but no 'Continue as' button was found."
+            )
+            return False
+
+        button.click()
+        self.LOGGER.info("Facebook 'Continue as' button tapped.")
+        if self._wait_facebook_continue_screen_dismissed():
+            return True
+
+        self.LOGGER.warning(
+            "Facebook continue tap did not dismiss OAuth screen; credential form may be required."
+        )
+        return False
+
     def enter_facebook_credentials(self, email=None, password=None):
+        self._facebook_skipped_credential_form = False
+
+        if self._try_tap_facebook_continue_as():
+            self._facebook_skipped_credential_form = True
+            return
+
         target_email = email or self.FACEBOOK_EMAIL
         target_password = password or self.FACEBOOK_PASSWORD
         self.LOGGER.info("Entering Facebook credentials in webview surface.")
@@ -411,6 +555,12 @@ class LoginPage(BasePage):
         self.LOGGER.info("Facebook credentials entered.")
 
     def submit_facebook_login(self):
+        if getattr(self, "_facebook_skipped_credential_form", False):
+            self.LOGGER.info(
+                "Skipping Facebook 'Log in' submit; Continue-as path was already used."
+            )
+            return
+
         self.LOGGER.info(
             "Submitting Facebook login form (locale labels: %s).",
             ", ".join(f"`{lbl}`" for lbl in self.FACEBOOK_SUBMIT_BUTTON_LABELS),

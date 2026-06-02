@@ -3,13 +3,14 @@ Feature: Cubii login
   I want to sign in with valid credentials
   So that I can access the app home screen
 
-  @smoke @login
+  @smoke @login @skip_bootstrap
   Scenario: Successful Login
     Given the Cubii application is launched
     And the Cubii login screen is visible
     When the user enters valid email and password
     And the user taps the SIGN IN button
     Then the user should be successfully logged in
+    And the user completes FTUE if required
     When the user taps the three dots menu
     And the user taps Logout from the menu
     And the user confirms Logout
@@ -25,6 +26,7 @@ Feature: Cubii login
     Then the Choose an account popup is displayed
     When the user selects an available Google account
     Then the user is redirected to the Cubii home screen
+    And the user completes FTUE if required
     When the user taps the three dots menu
     And the user taps Logout from the menu
     And the user confirms Logout
@@ -40,6 +42,7 @@ Feature: Cubii login
     And the user enters valid Facebook credentials
     And the user submits the Facebook login form
     Then the user is redirected to the Cubii home screen
+    And the user completes FTUE if required
     When the user taps the three dots menu
     And the user taps Logout from the menu
     And the user confirms Logout

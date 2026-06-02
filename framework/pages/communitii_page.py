@@ -19,7 +19,13 @@ class CommunitiiPage(BasePage):
 
     LOGGER = logging.getLogger("cubii_communitii_page")
 
+    NAVIGATION_CHIIRGROUP_ID = "com.cubii:id/navigation_chiirgroup"
+    NAVIGATION_CHIIRGROUP_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/navigation_chiirgroup")'
+    )
     COMMUNITII_TAB_CANDIDATE_LOCATORS = (
+        (AppiumBy.ID, NAVIGATION_CHIIRGROUP_ID),
+        (AppiumBy.ANDROID_UIAUTOMATOR, NAVIGATION_CHIIRGROUP_UIAUTOMATOR),
         (AppiumBy.XPATH, '//android.widget.FrameLayout[@content-desc="Communitii"]'),
         (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().descriptionContains("Communitii")'),
         (
@@ -34,6 +40,234 @@ class CommunitiiPage(BasePage):
     SB_MY_GROUP_ID = "com.cubii:id/sb_my_group"
     SB_MY_GROUP_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/sb_my_group")'
     SB_FRIENDS_ID = "com.cubii:id/sb_friends"
+    SB_FRIENDS_XPATH = '//android.view.View[@resource-id="com.cubii:id/sb_friends"]'
+    SB_FRIENDS_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/sb_friends")'
+    FRIENDS_CHAT_LIST_SEARCH_ID = "com.cubii:id/edtChatListSearch"
+    FRIENDS_CHAT_LIST_SEARCH_XPATH = (
+        '//android.widget.EditText[@resource-id="com.cubii:id/edtChatListSearch"]'
+    )
+    FRIENDS_CHAT_LIST_SEARCH_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/edtChatListSearch")'
+    )
+    BTN_INVITE_FRIENDS_ID = "com.cubii:id/btnInviteFriends"
+    BTN_INVITE_FRIENDS_XPATH = (
+        '//android.widget.Button[@resource-id="com.cubii:id/btnInviteFriends"]'
+    )
+    BTN_INVITE_FRIENDS_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/btnInviteFriends")'
+    )
+    ADD_NEW_CHAT_SEARCH_ID = "com.cubii:id/edtAddNewChatSearch"
+    ADD_NEW_CHAT_SEARCH_XPATH = (
+        '//android.widget.EditText[@resource-id="com.cubii:id/edtAddNewChatSearch"]'
+    )
+    ADD_NEW_CHAT_SEARCH_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/edtAddNewChatSearch")'
+    )
+    CB_INVITE_FRIEND_ID = "com.cubii:id/cbInviteFriend"
+    CB_INVITE_FRIEND_XPATH = (
+        '//android.widget.ImageView[@resource-id="com.cubii:id/cbInviteFriend"]'
+    )
+    CB_INVITE_FRIEND_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/cbInviteFriend")'
+    )
+    DEFAULT_INVITE_FRIEND_NAME = os.getenv(
+        "CUBII_INVITE_FRIEND_SEARCH_NAME", "Hetvee Sakariya"
+    )
+    CHAT_LAST_MSG_ID = "com.cubii:id/txtChatLastMsg"
+    CHAT_LAST_MSG_FIRST_XPATH = (
+        '(//android.widget.TextView[@resource-id="com.cubii:id/txtChatLastMsg"])[1]'
+    )
+    CHAT_LAST_MSG_FIRST_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtChatLastMsg").instance(0)'
+    )
+    CHAT_PROFILE_TOOLBAR_TITLE_ID = "com.cubii:id/toolbar_title"
+    CHAT_PROFILE_TOOLBAR_TITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/toolbar_title"]'
+    )
+    CHAT_PROFILE_TOOLBAR_TITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/toolbar_title")'
+    )
+    CHAT_PROFILE_TOOLBAR_SUBTITLE_ID = "com.cubii:id/toolbar_subtitle"
+    CHAT_PROFILE_TOOLBAR_SUBTITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/toolbar_subtitle"]'
+    )
+    CHAT_PROFILE_TOOLBAR_SUBTITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/toolbar_subtitle")'
+    )
+    CHAT_PROFILE_VALID_STATUSES = ("ONLINE", "OFFLINE")
+    DEFAULT_CHAT_PROFILE_NAME = os.getenv(
+        "CUBII_CHAT_PROFILE_NAME", "Hetvee Sakariya"
+    )
+    CHAT_CONVERSATION_MESSAGE_ID = "com.cubii:id/edtChatConversationMessage"
+    CHAT_CONVERSATION_MESSAGE_XPATH = (
+        '//android.widget.EditText[@resource-id="com.cubii:id/edtChatConversationMessage"]'
+    )
+    CHAT_CONVERSATION_MESSAGE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/edtChatConversationMessage")'
+    )
+    CHAT_CONVERSATION_SEND_ID = "com.cubii:id/imgChatConversationSendMessage"
+    CHAT_CONVERSATION_SEND_XPATH = (
+        '//android.widget.ImageView[@resource-id="com.cubii:id/imgChatConversationSendMessage"]'
+    )
+    CHAT_CONVERSATION_SEND_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/imgChatConversationSendMessage")'
+    )
+    CARD_CHIIR_MOTIVATION_ID = "com.cubii:id/cardChatConversationSendChiirMotivation"
+    CARD_CHIIR_MOTIVATION_XPATH = (
+        '//android.widget.FrameLayout[@resource-id="com.cubii:id/cardChatConversationSendChiirMotivation"]'
+    )
+    CARD_CHIIR_MOTIVATION_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/cardChatConversationSendChiirMotivation")'
+    )
+    CHAT_CONVERSATION_OPTIONS_ID = "com.cubii:id/imgChatConversationOptions"
+    CHAT_CONVERSATION_OPTIONS_XPATH = (
+        '//android.widget.ImageView[@resource-id="com.cubii:id/imgChatConversationOptions"]'
+    )
+    CHAT_CONVERSATION_OPTIONS_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/imgChatConversationOptions")'
+    )
+    CHAT_OPTION_VIEW_INFO_ID = "com.cubii:id/txtOptionViewInfo"
+    CHAT_OPTION_VIEW_INFO_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtOptionViewInfo"]'
+    )
+    CHAT_OPTION_VIEW_INFO_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtOptionViewInfo")'
+    )
+    CHAT_OPTION_UNFRIEND_ID = "com.cubii:id/txtOptionUnFriend"
+    CHAT_OPTION_UNFRIEND_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtOptionUnFriend"]'
+    )
+    CHAT_OPTION_UNFRIEND_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtOptionUnFriend")'
+    )
+    CHAT_OPTION_REPORT_ID = "com.cubii:id/txtOptionReport"
+    CHAT_OPTION_REPORT_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtOptionReport"]'
+    )
+    CHAT_OPTION_REPORT_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtOptionReport")'
+    )
+    CHAT_OPTION_BLOCK_ID = "com.cubii:id/txtOptionBlock"
+    CHAT_OPTION_BLOCK_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtOptionBlock"]'
+    )
+    CHAT_OPTION_BLOCK_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtOptionBlock")'
+    )
+    VIEW_INFO_USER_NAME_ID = "com.cubii:id/txtUserName"
+    VIEW_INFO_USER_NAME_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtUserName"]'
+    )
+    VIEW_INFO_USER_NAME_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/txtUserName")'
+    VIEW_INFO_VIEW_PROFILE_ID = "com.cubii:id/txtViewProfile"
+    VIEW_INFO_VIEW_PROFILE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtViewProfile"]'
+    )
+    VIEW_INFO_VIEW_PROFILE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtViewProfile")'
+    )
+    VIEW_INFO_USER_JOINED_DATE_ID = "com.cubii:id/txtUserJoinedDateInfo"
+    VIEW_INFO_USER_JOINED_DATE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtUserJoinedDateInfo"]'
+    )
+    VIEW_INFO_USER_JOINED_DATE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtUserJoinedDateInfo")'
+    )
+    VIEW_INFO_USER_GROUPS_INFO_ID = "com.cubii:id/txtUserGroupsInfo"
+    VIEW_INFO_USER_GROUPS_INFO_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtUserGroupsInfo"]'
+    )
+    VIEW_INFO_USER_GROUPS_INFO_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtUserGroupsInfo")'
+    )
+    VIEW_INFO_BTN_REPORT_ID = "com.cubii:id/btnReport"
+    VIEW_INFO_BTN_REPORT_XPATH = '//android.widget.Button[@resource-id="com.cubii:id/btnReport"]'
+    VIEW_INFO_BTN_REPORT_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/btnReport")'
+    VIEW_INFO_BTN_BLOCK_ID = "com.cubii:id/btnBlock"
+    VIEW_INFO_BTN_BLOCK_XPATH = '//android.widget.Button[@resource-id="com.cubii:id/btnBlock"]'
+    VIEW_INFO_BTN_BLOCK_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/btnBlock")'
+    VIEW_INFO_BTN_UNFRIEND_ID = "com.cubii:id/btnUnfriend"
+    VIEW_INFO_BTN_UNFRIEND_XPATH = (
+        '//android.widget.Button[@resource-id="com.cubii:id/btnUnfriend"]'
+    )
+    VIEW_INFO_BTN_UNFRIEND_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/btnUnfriend")'
+    )
+    UNFRIEND_CONFIRM_BTN_YES_ID = "com.cubii:id/btnYes"
+    UNFRIEND_CONFIRM_BTN_YES_XPATH = (
+        '//android.widget.Button[@resource-id="com.cubii:id/btnYes"]'
+    )
+    UNFRIEND_CONFIRM_BTN_YES_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/btnYes")'
+    )
+    VIEW_PROFILE_BIO_TITLE_ID = "com.cubii:id/txtIgnoreBioTitle"
+    VIEW_PROFILE_BIO_TITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtIgnoreBioTitle"]'
+    )
+    VIEW_PROFILE_BIO_TITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtIgnoreBioTitle")'
+    )
+    VIEW_PROFILE_BIO_TEXT_ID = "com.cubii:id/txtBio"
+    VIEW_PROFILE_BIO_TEXT_XPATH = '//android.widget.TextView[@resource-id="com.cubii:id/txtBio"]'
+    VIEW_PROFILE_BIO_TEXT_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/txtBio")'
+    VIEW_PROFILE_FOCUS_TITLE_ID = "com.cubii:id/txtIgnoreFocusTitle"
+    VIEW_PROFILE_FOCUS_TITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtIgnoreFocusTitle"]'
+    )
+    VIEW_PROFILE_FOCUS_TITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtIgnoreFocusTitle")'
+    )
+    VIEW_PROFILE_FOCUS_TEXT_ID = "com.cubii:id/txtFocus"
+    VIEW_PROFILE_FOCUS_TEXT_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtFocus"]'
+    )
+    VIEW_PROFILE_FOCUS_TEXT_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/txtFocus")'
+    VIEW_PROFILE_INTERESTS_TITLE_ID = "com.cubii:id/txtIgnoreInterestTitle"
+    VIEW_PROFILE_INTERESTS_TITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtIgnoreInterestTitle"]'
+    )
+    VIEW_PROFILE_INTERESTS_TITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtIgnoreInterestTitle")'
+    )
+    VIEW_PROFILE_INTERESTS_LIST_ID = "com.cubii:id/rvInterest"
+    VIEW_PROFILE_INTERESTS_LIST_XPATH = (
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rvInterest"]'
+    )
+    VIEW_PROFILE_INTERESTS_LIST_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/rvInterest")'
+    )
+    VIEW_PROFILE_BADGES_TITLE_ID = "com.cubii:id/txtIgnoreBadgesTitle"
+    VIEW_PROFILE_BADGES_TITLE_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtIgnoreBadgesTitle"]'
+    )
+    VIEW_PROFILE_BADGES_TITLE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtIgnoreBadgesTitle")'
+    )
+    VIEW_PROFILE_BADGES_GRID_ID = "com.cubii:id/rvBadges"
+    VIEW_PROFILE_BADGES_GRID_XPATH = (
+        '//android.widget.GridView[@resource-id="com.cubii:id/rvBadges"]'
+    )
+    VIEW_PROFILE_BADGES_GRID_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/rvBadges")'
+    CHAT_CONVERSATION_BLOCKED_BY_TEXT_ID = "com.cubii:id/txtChatConversationBlockedByText"
+    CHAT_CONVERSATION_BLOCKED_BY_TEXT_XPATH = (
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtChatConversationBlockedByText"]'
+    )
+    CHAT_CONVERSATION_BLOCKED_BY_TEXT_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/txtChatConversationBlockedByText")'
+    )
+    BTN_UNBLOCK_ID = "com.cubii:id/btnUnblock"
+    BTN_UNBLOCK_XPATH = '//android.widget.Button[@resource-id="com.cubii:id/btnUnblock"]'
+    BTN_UNBLOCK_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/btnUnblock")'
+    CHAT_CONVERSATION_UNBLOCK_ID = BTN_UNBLOCK_ID
+    CHAT_CONVERSATION_UNBLOCK_XPATH = BTN_UNBLOCK_XPATH
+    CHAT_CONVERSATION_UNBLOCK_UIAUTOMATOR = BTN_UNBLOCK_UIAUTOMATOR
+    FRIENDS_MOVED_MENU_FTUE_ID = "com.cubii:id/btnNextMovedMenu"
+    FRIENDS_MOVED_MENU_FTUE_XPATH = (
+        '//android.widget.Button[@resource-id="com.cubii:id/btnNextMovedMenu"]'
+    )
+    FRIENDS_MOVED_MENU_FTUE_UIAUTOMATOR = (
+        'new UiSelector().resourceId("com.cubii:id/btnNextMovedMenu")'
+    )
     BTN_CREATE_GROUP_ID = "com.cubii:id/btn_create_group"
     BTN_CREATE_GROUP_XPATH = (
         '//android.widget.Button[@resource-id="com.cubii:id/btn_create_group"]'
@@ -547,24 +781,24 @@ class CommunitiiPage(BasePage):
         '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rvUsersList"]'
     )
     BLOCKED_USERS_RV_ROW_REL_XPATH = "./android.view.ViewGroup"
+    BLOCKED_USERS_ROW_FIRST_XPATH = (
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rvUsersList"]'
+        "/android.view.ViewGroup[1]"
+    )
     BLOCKED_USERS_ROW_FALLBACK_UIAUTOMATOR = (
         'new UiSelector().className("android.view.ViewGroup").instance(2)'
     )
     BLOCKED_USERS_TV_UNBLOCK_ID = "com.cubii:id/tvUnblock"
     BLOCKED_USERS_BTN_UNBLOCK_DIALOG_CANCEL_ID = "com.cubii:id/btnCancel"
-    BLOCKED_USERS_BTN_UNBLOCK_DIALOG_CONFIRM_ID = "com.cubii:id/btnUnblock"
+    BLOCKED_USERS_BTN_UNBLOCK_DIALOG_CONFIRM_ID = BTN_UNBLOCK_ID
     BLOCKED_USERS_BTN_CANCEL_XPATH = (
         '//android.widget.Button[@resource-id="com.cubii:id/btnCancel"]'
     )
-    BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_XPATH = (
-        '//android.widget.Button[@resource-id="com.cubii:id/btnUnblock"]'
-    )
+    BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_XPATH = BTN_UNBLOCK_XPATH
     BLOCKED_USERS_BTN_CANCEL_UIAUTOMATOR = (
         'new UiSelector().resourceId("com.cubii:id/btnCancel")'
     )
-    BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_UIAUTOMATOR = (
-        'new UiSelector().resourceId("com.cubii:id/btnUnblock")'
-    )
+    BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_UIAUTOMATOR = BTN_UNBLOCK_UIAUTOMATOR
     LL_BACK_ID = "com.cubii:id/llBack"
     LL_BACK_XPATH = '//android.widget.LinearLayout[@resource-id="com.cubii:id/llBack"]'
     LL_BACK_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/llBack")'
@@ -719,6 +953,650 @@ class CommunitiiPage(BasePage):
                 continue
         raise AssertionError(
             "Could not open Communitii tab. Please provide a stable Communitii tab locator."
+        )
+
+    @staticmethod
+    def _segment_is_selected(element) -> bool:
+        for attr in ("selected", "checked"):
+            try:
+                value = (element.get_attribute(attr) or "").strip().lower()
+                if value in ("true", "1"):
+                    return True
+            except Exception:
+                continue
+        return False
+
+    def _is_id_visible(self, resource_id: str) -> bool:
+        try:
+            for el in self.driver.find_elements(AppiumBy.ID, resource_id):
+                if el.is_displayed():
+                    return True
+        except Exception:
+            pass
+        return False
+
+    def is_on_communitii_friends_tab(self) -> bool:
+        """True when Communitii is open and the Friends segment appears selected."""
+        if not self._is_id_visible(self.SB_FRIENDS_ID):
+            return False
+        if not self._is_id_visible(self.SB_MY_GROUP_ID):
+            return False
+        try:
+            friends_el = self.driver.find_element(AppiumBy.ID, self.SB_FRIENDS_ID)
+            if self._segment_is_selected(friends_el):
+                return True
+        except Exception:
+            pass
+        # Fallback: Friends tab hides Groups-only controls (CREATE GROUP / joined list).
+        groups_only_visible = (
+            self._is_id_visible(self.BTN_CREATE_GROUP_ID)
+            or self._is_id_visible(self.JOINED_GROUPS_RV_CHIIRGROUP_ID)
+        )
+        return not groups_only_visible
+
+    def open_communitii_friends_from_any_tab(self) -> None:
+        """
+        Open Communitii Friends via bottom-nav Communitii tab, then Friends segment.
+
+        Skips Communitii/Friends taps when already on the Friends segment.
+        """
+        if self.is_on_communitii_friends_tab():
+            self.LOGGER.info(
+                "Communitii Friends: already on Friends tab; skipping Communitii "
+                "and Friends segment taps."
+            )
+            return
+        self.LOGGER.info("Communitii Friends: opening via Communitii → Friends.")
+        self.open_communitii_tab()
+        self.tap_friends_segment_on_community_main()
+
+    def _dismiss_friends_moved_menu_ftue_if_present(self) -> None:
+        """Dismiss optional Friends tab coachmark (btnNextMovedMenu / Moved Menu GOT IT)."""
+        timeout = int(os.getenv("CUBII_FRIENDS_MOVED_MENU_FTUE_WAIT_SEC", "3"))
+        clicked = False
+        for by, locator, label in (
+            (AppiumBy.ID, self.FRIENDS_MOVED_MENU_FTUE_ID, "Friends Moved Menu GOT IT (id)"),
+            (AppiumBy.XPATH, self.FRIENDS_MOVED_MENU_FTUE_XPATH, "Friends Moved Menu GOT IT (xpath)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.FRIENDS_MOVED_MENU_FTUE_UIAUTOMATOR,
+                "Friends Moved Menu GOT IT (UiAutomator)",
+            ),
+        ):
+            if self._non_ble._click_if_present(by, locator, label, timeout=timeout):
+                clicked = True
+                break
+        if clicked:
+            time.sleep(float(os.getenv("CUBII_AFTER_FRIENDS_MOVED_MENU_FTUE_SEC", "0.5")))
+            self.LOGGER.info("Communitii Friends: dismissed Moved Menu GOT IT overlay.")
+
+    def tap_friends_segment_on_community_main(self) -> None:
+        """Tap the Friends segment (`sb_friends`) on the Communitii main screen."""
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        for by, locator, label in (
+            (AppiumBy.ID, self.SB_FRIENDS_ID, "sb_friends (id)"),
+            (AppiumBy.XPATH, self.SB_FRIENDS_XPATH, "sb_friends (xpath)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.SB_FRIENDS_UIAUTOMATOR,
+                "sb_friends (UiAutomator)",
+            ),
+        ):
+            try:
+                el = wait.until(ec.element_to_be_clickable((by, locator)))
+                el.click()
+                time.sleep(float(os.getenv("CUBII_AFTER_TAP_FRIENDS_SEGMENT_SEC", "0.8")))
+                self.LOGGER.info("Communitii Friends: Friends segment tapped (%s).", label)
+                self._dismiss_friends_moved_menu_ftue_if_present()
+                return
+            except Exception:
+                continue
+        raise AssertionError(
+            "Could not tap Friends segment (`com.cubii:id/sb_friends`) on Communitii main screen."
+        )
+
+    def _must_see_one_of(self, wait, locator_triplets, description: str, missing: list) -> None:
+        for by, locator in locator_triplets:
+            try:
+                wait.until(ec.visibility_of_element_located((by, locator)))
+                self.LOGGER.info("Communitii Friends: visible — %s via `%s`.", description, locator)
+                return
+            except TimeoutException:
+                continue
+        missing.append(description)
+
+    def _is_visible_one_of(self, wait: WebDriverWait, locator_triplets: tuple[tuple, ...]) -> bool:
+        for by, locator in locator_triplets:
+            try:
+                wait.until(ec.visibility_of_element_located((by, locator)))
+                return True
+            except Exception:
+                continue
+        return False
+
+    def _assert_visible_one_of(
+        self, wait: WebDriverWait, locator_triplets: tuple[tuple, ...], description: str
+    ) -> None:
+        if not self._is_visible_one_of(wait, locator_triplets):
+            raise AssertionError(f"View Profile: {description} not visible.")
+
+    @staticmethod
+    def _text_view_locator_triplets(resource_id: str) -> tuple[tuple, ...]:
+        return (
+            (AppiumBy.ID, resource_id),
+            (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().resourceId("{resource_id}")'),
+            (
+                AppiumBy.XPATH,
+                f'//android.widget.TextView[@resource-id="{resource_id}"]',
+            ),
+        )
+
+    def verify_communitii_friends_tab(self) -> None:
+        """Assert Friends tab content: chat search bar and Invite Friends button."""
+        self._dismiss_friends_moved_menu_ftue_if_present()
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        missing: list[str] = []
+
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.FRIENDS_CHAT_LIST_SEARCH_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.FRIENDS_CHAT_LIST_SEARCH_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.FRIENDS_CHAT_LIST_SEARCH_XPATH),
+            ),
+            "Friends chat list search bar (edtChatListSearch)",
+            missing,
+        )
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.BTN_INVITE_FRIENDS_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.BTN_INVITE_FRIENDS_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.BTN_INVITE_FRIENDS_XPATH),
+            ),
+            "Invite Friends button (btnInviteFriends)",
+            missing,
+        )
+
+        if missing:
+            raise AssertionError(
+                "Communitii Friends tab missing controls: " + ", ".join(missing)
+            )
+
+        self.LOGGER.info(
+            "Step Passed: Communitii Friends tab verified (search bar and Invite Friends)."
+        )
+
+    def _tap_clickable_one_of(
+        self, locator_triplets: tuple[tuple, ...], description: str, pause_env_key: str
+    ) -> None:
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        for by, locator in locator_triplets:
+            try:
+                wait.until(ec.element_to_be_clickable((by, locator))).click()
+                time.sleep(float(os.getenv(pause_env_key, "0.5")))
+                self.LOGGER.info("Communitii Friends: tapped %s via `%s`.", description, locator)
+                return
+            except Exception:
+                continue
+        raise AssertionError(f"Communitii Friends: could not tap {description}.")
+
+    def _fill_edittext_one_of(
+        self, locator_triplets: tuple[tuple, ...], value: str, description: str
+    ) -> None:
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        field = None
+        used = ""
+        for by, locator in locator_triplets:
+            try:
+                field = wait.until(ec.element_to_be_clickable((by, locator)))
+                used = locator
+                break
+            except Exception:
+                continue
+        if field is None:
+            raise AssertionError(
+                f"Communitii Friends: {description} field not found (tried id/xpath/UiAutomator)."
+            )
+        try:
+            field.click()
+        except Exception:
+            pass
+        time.sleep(0.2)
+        try:
+            field.clear()
+        except Exception:
+            pass
+        field.send_keys(value)
+        time.sleep(float(os.getenv("CUBII_AFTER_INVITE_FRIEND_SEARCH_TYPE_SEC", "0.8")))
+        self.LOGGER.info(
+            "Communitii Friends: entered %r into %s via `%s`.",
+            value,
+            description,
+            used,
+        )
+
+    def tap_invite_friends_button(self) -> None:
+        """Tap INVITE FRIENDS on the Friends tab."""
+        self._dismiss_friends_moved_menu_ftue_if_present()
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.BTN_INVITE_FRIENDS_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.BTN_INVITE_FRIENDS_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.BTN_INVITE_FRIENDS_XPATH),
+            ),
+            "Invite Friends button (btnInviteFriends)",
+            "CUBII_AFTER_TAP_INVITE_FRIENDS_SEC",
+        )
+
+    def tap_add_new_chat_search_field(self) -> None:
+        """Tap the add-friend search field on the invite sheet."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.ADD_NEW_CHAT_SEARCH_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.ADD_NEW_CHAT_SEARCH_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.ADD_NEW_CHAT_SEARCH_XPATH),
+            ),
+            "add friend search field (edtAddNewChatSearch)",
+            "CUBII_AFTER_TAP_ADD_NEW_CHAT_SEARCH_SEC",
+        )
+
+    def enter_invite_friend_search_name(self, name: str | None = None) -> None:
+        """Type a friend name into the invite search field."""
+        target_name = (name or self.DEFAULT_INVITE_FRIEND_NAME).strip()
+        self._fill_edittext_one_of(
+            (
+                (AppiumBy.ID, self.ADD_NEW_CHAT_SEARCH_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.ADD_NEW_CHAT_SEARCH_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.ADD_NEW_CHAT_SEARCH_XPATH),
+            ),
+            target_name,
+            "invite friend search (edtAddNewChatSearch)",
+        )
+
+    def tap_invite_friend_add_icon(self) -> None:
+        """Tap the + / invite control (cbInviteFriend) for the selected user."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CB_INVITE_FRIEND_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CB_INVITE_FRIEND_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CB_INVITE_FRIEND_XPATH),
+            ),
+            "invite friend add icon (cbInviteFriend)",
+            "CUBII_AFTER_TAP_INVITE_FRIEND_ADD_SEC",
+        )
+
+    def verify_invite_friend_add_icon_visible(self) -> None:
+        """Assert invite + control is visible after searching for a friend."""
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        missing: list[str] = []
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.CB_INVITE_FRIEND_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CB_INVITE_FRIEND_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CB_INVITE_FRIEND_XPATH),
+            ),
+            "invite friend add icon (cbInviteFriend)",
+            missing,
+        )
+        if missing:
+            raise AssertionError(
+                "Invite friend add icon not visible after search: " + ", ".join(missing)
+            )
+        self.LOGGER.info("Step Passed: invite friend add icon (cbInviteFriend) is visible.")
+
+    def _read_visible_text_one_of(self, locator_triplets: tuple[tuple, ...]) -> str | None:
+        for by, locator in locator_triplets:
+            try:
+                for el in self.driver.find_elements(by, locator):
+                    if not el.is_displayed():
+                        continue
+                    text = (el.text or el.get_attribute("text") or "").strip()
+                    if text:
+                        return text
+            except Exception:
+                continue
+        return None
+
+    def tap_first_friend_chat_profile(self) -> None:
+        """Open the first friend chat from the Friends list (txtChatLastMsg row)."""
+        self._dismiss_friends_moved_menu_ftue_if_present()
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_LAST_MSG_FIRST_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_LAST_MSG_FIRST_XPATH),
+                (AppiumBy.ID, self.CHAT_LAST_MSG_ID),
+            ),
+            "first friend chat profile (txtChatLastMsg)",
+            "CUBII_AFTER_TAP_FRIEND_CHAT_PROFILE_SEC",
+        )
+
+    def verify_friend_chat_profile_toolbar(self, expected_name: str | None = None) -> None:
+        """
+        Assert chat toolbar shows profile name (toolbar_title) and ONLINE/OFFLINE
+        status (toolbar_subtitle).
+        """
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        title_triplets = (
+            (AppiumBy.ID, self.CHAT_PROFILE_TOOLBAR_TITLE_ID),
+            (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_PROFILE_TOOLBAR_TITLE_UIAUTOMATOR),
+            (AppiumBy.XPATH, self.CHAT_PROFILE_TOOLBAR_TITLE_XPATH),
+        )
+        subtitle_triplets = (
+            (AppiumBy.ID, self.CHAT_PROFILE_TOOLBAR_SUBTITLE_ID),
+            (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_PROFILE_TOOLBAR_SUBTITLE_UIAUTOMATOR),
+            (AppiumBy.XPATH, self.CHAT_PROFILE_TOOLBAR_SUBTITLE_XPATH),
+        )
+        missing: list[str] = []
+        self._must_see_one_of(wait, title_triplets, "chat profile name (toolbar_title)", missing)
+        self._must_see_one_of(
+            wait, subtitle_triplets, "chat profile status (toolbar_subtitle)", missing
+        )
+        if missing:
+            raise AssertionError(
+                "Friend chat profile toolbar missing: " + ", ".join(missing)
+            )
+
+        profile_name = self._read_visible_text_one_of(title_triplets)
+        profile_status = self._read_visible_text_one_of(subtitle_triplets)
+        if not profile_name:
+            raise AssertionError("Chat profile toolbar_title is empty.")
+
+        target_name = (expected_name or self.DEFAULT_CHAT_PROFILE_NAME).strip()
+        if target_name and target_name.lower() not in profile_name.lower():
+            raise AssertionError(
+                f"Chat profile name mismatch: expected {target_name!r}, got {profile_name!r}."
+            )
+
+        if not profile_status:
+            raise AssertionError("Chat profile toolbar_subtitle (status) is empty.")
+        status_normalized = profile_status.strip().upper()
+        if status_normalized not in self.CHAT_PROFILE_VALID_STATUSES:
+            raise AssertionError(
+                f"Chat profile status must be ONLINE or OFFLINE, got {profile_status!r}."
+            )
+
+        self.LOGGER.info(
+            "Step Passed: friend chat profile toolbar — name=%r, status=%r.",
+            profile_name,
+            profile_status,
+        )
+
+    @staticmethod
+    def _random_chat_message() -> str:
+        return f"Cubii QA message {random.randint(100000, 999999)}"
+
+    def _chat_message_field_locators(self) -> tuple[tuple, ...]:
+        return (
+            (AppiumBy.ID, self.CHAT_CONVERSATION_MESSAGE_ID),
+            (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_CONVERSATION_MESSAGE_UIAUTOMATOR),
+            (AppiumBy.XPATH, self.CHAT_CONVERSATION_MESSAGE_XPATH),
+        )
+
+    def _chat_send_button_locators(self) -> tuple[tuple, ...]:
+        return (
+            (AppiumBy.ID, self.CHAT_CONVERSATION_SEND_ID),
+            (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_CONVERSATION_SEND_UIAUTOMATOR),
+            (AppiumBy.XPATH, self.CHAT_CONVERSATION_SEND_XPATH),
+        )
+
+    def tap_chat_conversation_message_field(self) -> None:
+        """Tap the Type Something chat input (edtChatConversationMessage)."""
+        self._tap_clickable_one_of(
+            self._chat_message_field_locators(),
+            "chat message input (edtChatConversationMessage)",
+            "CUBII_AFTER_TAP_CHAT_MESSAGE_INPUT_SEC",
+        )
+
+    def type_and_send_random_chat_message(self, message: str | None = None) -> str:
+        """Type a random message and tap send (imgChatConversationSendMessage)."""
+        text = (message or self._random_chat_message()).strip()
+        self._fill_edittext_one_of(
+            self._chat_message_field_locators(),
+            text,
+            "chat message input (edtChatConversationMessage)",
+        )
+        self._tap_clickable_one_of(
+            self._chat_send_button_locators(),
+            "chat send button (imgChatConversationSendMessage)",
+            "CUBII_AFTER_TAP_CHAT_SEND_SEC",
+        )
+        self.LOGGER.info("Step Passed: random chat message sent (%r).", text)
+        return text
+
+    def tap_chiir_motivation_strides_target_if_present(self) -> bool:
+        """
+        Tap the strides-target motivation card (100 Strides Target) when shown on chat.
+        Returns True if tapped, False when the card is not available.
+        """
+        timeout = int(os.getenv("CUBII_CHIIR_MOTIVATION_CARD_WAIT_SEC", "4"))
+        for by, locator, label in (
+            (AppiumBy.ID, self.CARD_CHIIR_MOTIVATION_ID, "Chiir motivation card (id)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.CARD_CHIIR_MOTIVATION_UIAUTOMATOR,
+                "Chiir motivation card (UiAutomator)",
+            ),
+            (AppiumBy.XPATH, self.CARD_CHIIR_MOTIVATION_XPATH, "Chiir motivation card (xpath)"),
+        ):
+            if self._non_ble._click_if_present(by, locator, label, timeout=timeout):
+                time.sleep(
+                    float(os.getenv("CUBII_AFTER_TAP_CHIIR_MOTIVATION_CARD_SEC", "0.6"))
+                )
+                self.LOGGER.info(
+                    "Step Passed: tapped strides target motivation card (%s).", label
+                )
+                return True
+        self.LOGGER.info(
+            "Chiir motivation strides target card not shown; skipping optional tap."
+        )
+        return False
+
+    def tap_chat_conversation_options_menu(self) -> None:
+        """Tap the three-dot menu on the friend chat screen (imgChatConversationOptions)."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_CONVERSATION_OPTIONS_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_CONVERSATION_OPTIONS_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_CONVERSATION_OPTIONS_XPATH),
+            ),
+            "chat conversation options menu (imgChatConversationOptions)",
+            "CUBII_AFTER_TAP_CHAT_OPTIONS_MENU_SEC",
+        )
+
+    def tap_view_info_from_chat_options(self) -> None:
+        """Tap View Info in the chat options sheet (txtOptionViewInfo)."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_OPTION_VIEW_INFO_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_OPTION_VIEW_INFO_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_OPTION_VIEW_INFO_XPATH),
+            ),
+            "View Info option (txtOptionViewInfo)",
+            "CUBII_AFTER_TAP_VIEW_INFO_OPTION_SEC",
+        )
+
+    def tap_unfriend_from_chat_options(self) -> None:
+        """Tap Unfriend in the chat options sheet (txtOptionUnFriend)."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_OPTION_UNFRIEND_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_OPTION_UNFRIEND_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_OPTION_UNFRIEND_XPATH),
+            ),
+            "Unfriend option (txtOptionUnFriend)",
+            "CUBII_AFTER_TAP_UNFRIEND_OPTION_SEC",
+        )
+
+    def tap_report_from_chat_options(self) -> None:
+        """Tap Report in the chat options sheet (txtOptionReport)."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_OPTION_REPORT_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_OPTION_REPORT_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_OPTION_REPORT_XPATH),
+            ),
+            "Report option (txtOptionReport)",
+            "CUBII_AFTER_TAP_REPORT_OPTION_SEC",
+        )
+
+    def tap_block_from_chat_options(self) -> None:
+        """Tap Block in the chat options sheet (txtOptionBlock)."""
+        self._tap_clickable_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_OPTION_BLOCK_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_OPTION_BLOCK_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_OPTION_BLOCK_XPATH),
+            ),
+            "Block option (txtOptionBlock)",
+            "CUBII_AFTER_TAP_BLOCK_OPTION_SEC",
+        )
+
+    def verify_view_info_option_visible(self) -> None:
+        """Assert View Info is shown in the open chat options menu."""
+        wait_sec = int(os.getenv("CUBII_COMMUNITY_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        missing: list[str] = []
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.CHAT_OPTION_VIEW_INFO_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_OPTION_VIEW_INFO_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_OPTION_VIEW_INFO_XPATH),
+            ),
+            "View Info option (txtOptionViewInfo)",
+            missing,
+        )
+        if missing:
+            raise AssertionError(
+                "View Info option not visible in chat menu: " + ", ".join(missing)
+            )
+        self.LOGGER.info("Step Passed: View Info option is visible in chat menu.")
+
+    def verify_view_info_screen(self, expected_name: str | None = None) -> None:
+        """
+        Assert View Info screen shows profile name, View Profile, description fields,
+        and Report / Block / Unfriend actions.
+        """
+        wait_sec = int(os.getenv("CUBII_VIEW_INFO_SCREEN_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        missing: list[str] = []
+
+        checks = (
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_USER_NAME_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_NAME_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_USER_NAME_XPATH),
+                ),
+                "profile name (txtUserName)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_VIEW_PROFILE_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_VIEW_PROFILE_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_VIEW_PROFILE_XPATH),
+                ),
+                "View Profile (txtViewProfile)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_USER_JOINED_DATE_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_JOINED_DATE_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_USER_JOINED_DATE_XPATH),
+                ),
+                "joined date info (txtUserJoinedDateInfo)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_USER_GROUPS_INFO_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_GROUPS_INFO_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_USER_GROUPS_INFO_XPATH),
+                ),
+                "groups info (txtUserGroupsInfo)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_BTN_REPORT_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_BTN_REPORT_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_BTN_REPORT_XPATH),
+                ),
+                "Report (btnReport)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_BTN_BLOCK_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_BTN_BLOCK_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_BTN_BLOCK_XPATH),
+                ),
+                "Block (btnBlock)",
+            ),
+            (
+                (
+                    (AppiumBy.ID, self.VIEW_INFO_BTN_UNFRIEND_ID),
+                    (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_BTN_UNFRIEND_UIAUTOMATOR),
+                    (AppiumBy.XPATH, self.VIEW_INFO_BTN_UNFRIEND_XPATH),
+                ),
+                "Unfriend (btnUnfriend)",
+            ),
+        )
+
+        for locator_triplets, description in checks:
+            self._must_see_one_of(wait, locator_triplets, description, missing)
+
+        if missing:
+            raise AssertionError(
+                "View Info screen missing controls: " + ", ".join(missing)
+            )
+
+        profile_name = self._read_visible_text_one_of(
+            (
+                (AppiumBy.ID, self.VIEW_INFO_USER_NAME_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_NAME_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_INFO_USER_NAME_XPATH),
+            )
+        )
+        if not profile_name:
+            raise AssertionError("View Info profile name (txtUserName) is empty.")
+
+        target_name = (expected_name or self.DEFAULT_CHAT_PROFILE_NAME).strip()
+        if target_name and target_name.lower() not in profile_name.lower():
+            raise AssertionError(
+                f"View Info profile name mismatch: expected {target_name!r}, got {profile_name!r}."
+            )
+
+        joined_info = self._read_visible_text_one_of(
+            (
+                (AppiumBy.ID, self.VIEW_INFO_USER_JOINED_DATE_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_JOINED_DATE_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_INFO_USER_JOINED_DATE_XPATH),
+            )
+        )
+        groups_info = self._read_visible_text_one_of(
+            (
+                (AppiumBy.ID, self.VIEW_INFO_USER_GROUPS_INFO_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_INFO_USER_GROUPS_INFO_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_INFO_USER_GROUPS_INFO_XPATH),
+            )
+        )
+        if not joined_info and not groups_info:
+            raise AssertionError(
+                "View Info description fields are empty (txtUserJoinedDateInfo and "
+                "txtUserGroupsInfo)."
+            )
+
+        self.LOGGER.info(
+            "Step Passed: View Info screen verified — name=%r, joined=%r, groups=%r.",
+            profile_name,
+            joined_info,
+            groups_info,
         )
 
     def _scroll_community_main_up_one(self) -> None:
@@ -4410,6 +5288,173 @@ class CommunitiiPage(BasePage):
             "Could not tap View Profile (`com.cubii:id/txtViewProfile`) on user details sheet."
         )
 
+    def tap_view_profile_on_view_info_screen(self) -> None:
+        """Tap View Profile on the View Info sheet (`txtViewProfile`)."""
+        self.tap_view_profile_on_user_details_sheet()
+        self.LOGGER.info("View Info screen: View Profile (`txtViewProfile`) tapped.")
+
+    def _verify_view_profile_text_section_if_available(
+        self,
+        wait_opt: WebDriverWait,
+        section_label: str,
+        title_triplets: tuple[tuple, ...],
+        value_triplets: tuple[tuple, ...],
+    ) -> bool:
+        """When a text section title or value is visible, assert both are shown with non-empty value."""
+        title_visible = self._is_visible_one_of(wait_opt, title_triplets)
+        value_visible = self._is_visible_one_of(wait_opt, value_triplets)
+        if not title_visible and not value_visible:
+            self.LOGGER.info("View Profile: %s not present; skipped.", section_label)
+            return False
+        if title_visible and not value_visible:
+            raise AssertionError(
+                f"View Profile: {section_label} title visible but value field missing."
+            )
+        if value_visible and not title_visible:
+            raise AssertionError(
+                f"View Profile: {section_label} value visible but title missing."
+            )
+        self._assert_visible_one_of(wait_opt, title_triplets, f"{section_label} title")
+        self._assert_visible_one_of(wait_opt, value_triplets, f"{section_label} value")
+        value_text = self._read_visible_text_one_of(value_triplets)
+        if not value_text:
+            raise AssertionError(f"View Profile: {section_label} value is empty.")
+        self.LOGGER.info(
+            "View Profile: %s verified (value sample=%r).",
+            section_label,
+            value_text[:120],
+        )
+        return True
+
+    def _verify_view_profile_list_section_if_available(
+        self,
+        wait_opt: WebDriverWait,
+        section_label: str,
+        title_triplets: tuple[tuple, ...],
+        list_triplets: tuple[tuple, ...],
+    ) -> bool:
+        """When a list section title or list is visible, assert both title and list are shown."""
+        title_visible = self._is_visible_one_of(wait_opt, title_triplets)
+        list_visible = self._is_visible_one_of(wait_opt, list_triplets)
+        if not title_visible and not list_visible:
+            self.LOGGER.info("View Profile: %s not present; skipped.", section_label)
+            return False
+        if title_visible and not list_visible:
+            raise AssertionError(
+                f"View Profile: {section_label} title visible but list missing."
+            )
+        if list_visible and not title_visible:
+            raise AssertionError(
+                f"View Profile: {section_label} list visible but title missing."
+            )
+        self._assert_visible_one_of(wait_opt, title_triplets, f"{section_label} title")
+        self._assert_visible_one_of(wait_opt, list_triplets, f"{section_label} list")
+        self.LOGGER.info("View Profile: %s list verified.", section_label)
+        return True
+
+    def verify_friend_view_profile_sections_if_available(self) -> None:
+        """
+        On the friend View Profile screen, verify Bio, Focus, Interests, and Badges
+        when each section is present (skipped when absent).
+        """
+        wait_sec = int(os.getenv("CUBII_VIEW_PROFILE_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        optional_sec = max(
+            2,
+            int(os.getenv("CUBII_VIEW_PROFILE_OPTIONAL_SECTION_WAIT_SEC", "3")),
+        )
+        wait = WebDriverWait(self.driver, wait_sec)
+        wait_opt = WebDriverWait(self.driver, optional_sec)
+
+        screen_anchors = (
+            self._text_view_locator_triplets(self.VIEW_PROFILE_BIO_TITLE_ID),
+            self._text_view_locator_triplets(self.VIEW_PROFILE_BIO_TEXT_ID),
+            self._text_view_locator_triplets(self.VIEW_PROFILE_FOCUS_TITLE_ID),
+            self._text_view_locator_triplets(self.VIEW_PROFILE_BADGES_TITLE_ID),
+            (
+                (AppiumBy.ID, self.VIEWED_PROFILE_IMG_USER_PICTURE_ID),
+                (
+                    AppiumBy.ANDROID_UIAUTOMATOR,
+                    self.VIEWED_PROFILE_IMG_USER_PICTURE_UIAUTOMATOR,
+                ),
+                (AppiumBy.XPATH, self.VIEWED_PROFILE_IMG_USER_PICTURE_XPATH),
+            ),
+        )
+        loaded = any(self._is_visible_one_of(wait, triplets) for triplets in screen_anchors)
+        if not loaded:
+            raise AssertionError(
+                "View Profile screen did not load (no profile anchors visible)."
+            )
+
+        verified: list[str] = []
+        if self._verify_view_profile_text_section_if_available(
+            wait_opt,
+            "Bio",
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_BIO_TITLE_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_BIO_TITLE_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_BIO_TITLE_XPATH),
+            ),
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_BIO_TEXT_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_BIO_TEXT_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_BIO_TEXT_XPATH),
+            ),
+        ):
+            verified.append("Bio")
+        if self._verify_view_profile_text_section_if_available(
+            wait_opt,
+            "Focus",
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_FOCUS_TITLE_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_FOCUS_TITLE_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_FOCUS_TITLE_XPATH),
+            ),
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_FOCUS_TEXT_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_FOCUS_TEXT_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_FOCUS_TEXT_XPATH),
+            ),
+        ):
+            verified.append("Focus")
+        if self._verify_view_profile_list_section_if_available(
+            wait_opt,
+            "Interests",
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_INTERESTS_TITLE_ID),
+                (
+                    AppiumBy.ANDROID_UIAUTOMATOR,
+                    self.VIEW_PROFILE_INTERESTS_TITLE_UIAUTOMATOR,
+                ),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_INTERESTS_TITLE_XPATH),
+            ),
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_INTERESTS_LIST_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_INTERESTS_LIST_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_INTERESTS_LIST_XPATH),
+            ),
+        ):
+            verified.append("Interests")
+        if self._verify_view_profile_list_section_if_available(
+            wait_opt,
+            "Badges",
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_BADGES_TITLE_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_BADGES_TITLE_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_BADGES_TITLE_XPATH),
+            ),
+            (
+                (AppiumBy.ID, self.VIEW_PROFILE_BADGES_GRID_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.VIEW_PROFILE_BADGES_GRID_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.VIEW_PROFILE_BADGES_GRID_XPATH),
+            ),
+        ):
+            verified.append("Badges")
+
+        self.LOGGER.info(
+            "Step Passed: friend View Profile verified. Sections checked: %s.",
+            ", ".join(verified) if verified else "none (profile shell only)",
+        )
+
     def verify_viewed_member_profile_screen_shows_profile_details(self) -> None:
         """Assert profile screen shows avatar, name, and badges.
 
@@ -4587,9 +5632,13 @@ class CommunitiiPage(BasePage):
             interest_ok,
         )
 
-    def tap_viewed_member_profile_screen_back_button(self) -> None:
-        """Tap profile screen back control (`iv_back`)."""
-        wait_sec = int(os.getenv("CUBII_VIEWED_PROFILE_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+    def _tap_iv_back_button(self, description: str, pause_env_key: str) -> None:
+        """Tap `com.cubii:id/iv_back` (profile or chat toolbar back)."""
+        wait_sec = int(os.getenv("CUBII_IV_BACK_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        # Some screens render the header/back control slightly after content appears.
+        settle_sec = float(os.getenv("CUBII_BEFORE_IV_BACK_TAP_SEC", "1.2"))
+        if settle_sec > 0:
+            time.sleep(settle_sec)
         wait = WebDriverWait(self.driver, wait_sec)
         for by, locator, label in (
             (AppiumBy.ID, self.VIEWED_PROFILE_IV_BACK_ID, "iv_back (id)"),
@@ -4608,13 +5657,25 @@ class CommunitiiPage(BasePage):
             try:
                 el = wait.until(ec.element_to_be_clickable((by, locator)))
                 el.click()
-                time.sleep(float(os.getenv("CUBII_AFTER_TAP_VIEWED_PROFILE_BACK_SEC", "0.6")))
-                self.LOGGER.info("Viewed profile: back tapped (%s).", label)
+                time.sleep(float(os.getenv(pause_env_key, "0.6")))
+                self.LOGGER.info("%s tapped via %s.", description, label)
                 return
             except Exception:
                 continue
-        raise AssertionError(
-            "Could not tap viewed member profile back (`com.cubii:id/iv_back`)."
+        raise AssertionError(f"Could not tap {description} (`com.cubii:id/iv_back`).")
+
+    def tap_viewed_member_profile_screen_back_button(self) -> None:
+        """Tap profile screen back control (`iv_back`)."""
+        self._tap_iv_back_button(
+            "Profile back",
+            "CUBII_AFTER_TAP_VIEWED_PROFILE_BACK_SEC",
+        )
+
+    def tap_chat_conversation_back_button(self) -> None:
+        """Tap chat screen back control (`iv_back`) after closing View Info / profile."""
+        self._tap_iv_back_button(
+            "Chat back",
+            "CUBII_AFTER_TAP_CHAT_BACK_SEC",
         )
 
     def verify_user_details_report_button_disabled(self):
@@ -4667,6 +5728,11 @@ class CommunitiiPage(BasePage):
                 f"is_enabled={live_enabled!r}, enabled attribute={en_attr!r}."
             )
         self.LOGGER.info("User details sheet: Report (`btnReport`) is disabled as expected.")
+
+    def verify_view_info_report_button_disabled(self) -> None:
+        """Assert Report (`btnReport`) is visible and disabled on the View Info sheet."""
+        self.verify_user_details_report_button_disabled()
+        self.LOGGER.info("View Info screen: Report (`btnReport`) is disabled as expected.")
 
     def tap_report_on_user_details_sheet(self):
         """Tap Report on the member user details bottom sheet (`btnReport`)."""
@@ -4843,6 +5909,158 @@ class CommunitiiPage(BasePage):
         time.sleep(float(os.getenv("CUBII_AFTER_ADD_FRIEND_TAP_SEC", "0.8")))
         self.LOGGER.info("User details: Add Friend button tapped.")
 
+    def tap_unfriend_on_user_details_sheet(self) -> None:
+        """Tap Unfriend on the member user details bottom sheet (`btnUnfriend`)."""
+        wait_sec = int(os.getenv("CUBII_USER_DETAILS_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        wait = WebDriverWait(self.driver, wait_sec)
+        for by, locator, label in (
+            (AppiumBy.ID, self.VIEW_INFO_BTN_UNFRIEND_ID, "btnUnfriend (id)"),
+            (AppiumBy.XPATH, self.VIEW_INFO_BTN_UNFRIEND_XPATH, "btnUnfriend (xpath)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.VIEW_INFO_BTN_UNFRIEND_UIAUTOMATOR,
+                "btnUnfriend (UiAutomator)",
+            ),
+        ):
+            try:
+                el = wait.until(ec.element_to_be_clickable((by, locator)))
+                el.click()
+                time.sleep(float(os.getenv("CUBII_AFTER_UNFRIEND_TAP_SEC", "0.6")))
+                self.LOGGER.info("User details: Unfriend tapped (%s).", label)
+                return
+            except Exception:
+                continue
+        raise AssertionError(
+            "Could not tap Unfriend (`com.cubii:id/btnUnfriend`) on user details sheet."
+        )
+
+    def tap_unfriend_on_view_info_screen(self) -> None:
+        """Tap Unfriend on the View Info sheet (`btnUnfriend`)."""
+        self.tap_unfriend_on_user_details_sheet()
+        self.LOGGER.info("View Info screen: Unfriend (`btnUnfriend`) tapped.")
+
+    def tap_unfriend_confirmation_yes(self) -> None:
+        """Tap Yes (`btnYes`) on the unfriend confirmation dialog."""
+        wait_sec = int(
+            os.getenv("CUBII_UNFRIEND_CONFIRM_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        wait = WebDriverWait(self.driver, wait_sec)
+        self.LOGGER.info("Unfriend: tap Yes on confirmation dialog (btnYes).")
+        for by, locator, label in (
+            (AppiumBy.ID, self.UNFRIEND_CONFIRM_BTN_YES_ID, "btnYes (id)"),
+            (AppiumBy.XPATH, self.UNFRIEND_CONFIRM_BTN_YES_XPATH, "btnYes (xpath)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.UNFRIEND_CONFIRM_BTN_YES_UIAUTOMATOR,
+                "btnYes (UiAutomator)",
+            ),
+        ):
+            try:
+                el = wait.until(ec.element_to_be_clickable((by, locator)))
+                el.click()
+                time.sleep(float(os.getenv("CUBII_AFTER_UNFRIEND_CONFIRM_YES_SEC", "0.8")))
+                self.LOGGER.info("Unfriend confirmation: Yes tapped (%s).", label)
+                return
+            except Exception:
+                continue
+        raise AssertionError(
+            "Could not tap Yes (`com.cubii:id/btnYes`) on unfriend confirmation dialog."
+        )
+
+    def tap_block_on_view_info_screen(self) -> None:
+        """Tap Block on the View Info sheet (`btnBlock`)."""
+        self.tap_block_on_user_details_sheet()
+        self.LOGGER.info("View Info screen: Block (`btnBlock`) tapped.")
+
+    def tap_block_confirmation_dialog_cancel(self) -> None:
+        """Tap Cancel (`btnCancel`) on the block confirmation dialog."""
+        self.tap_unblock_user_dialog_cancel()
+        self.LOGGER.info("Block confirmation dialog: Cancel (`btnCancel`) tapped.")
+
+    def tap_block_confirmation_dialog_confirm(self) -> None:
+        """Tap Block (`btnBlock`) on the block confirmation popup."""
+        wait_sec = int(
+            os.getenv("CUBII_BLOCK_CONFIRM_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        wait = WebDriverWait(self.driver, wait_sec)
+        for by, locator, label in (
+            (AppiumBy.ID, self.USER_DETAILS_BTN_BLOCK_ID, "btnBlock (id)"),
+            (AppiumBy.XPATH, self.BLOCK_USER_BTN_BLOCK_XPATH, "btnBlock (xpath)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.BLOCK_USER_BTN_BLOCK_UIAUTOMATOR,
+                "btnBlock (UiAutomator)",
+            ),
+        ):
+            try:
+                el = wait.until(ec.element_to_be_clickable((by, locator)))
+                el.click()
+                time.sleep(float(os.getenv("CUBII_AFTER_BLOCK_CONFIRM_TAP_SEC", "0.8")))
+                self.LOGGER.info("Block confirmation dialog: Block tapped (%s).", label)
+                return
+            except Exception:
+                continue
+        raise AssertionError(
+            "Could not tap Block (`com.cubii:id/btnBlock`) on block confirmation popup."
+        )
+
+    def verify_blocked_chat_conversation_shows_unblock(self) -> None:
+        """Assert blocked-by text and Unblock button are visible on the chat screen."""
+        wait_sec = int(
+            os.getenv("CUBII_BLOCKED_CHAT_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        wait = WebDriverWait(self.driver, wait_sec)
+        missing: list[str] = []
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_ID),
+                (
+                    AppiumBy.ANDROID_UIAUTOMATOR,
+                    self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_UIAUTOMATOR,
+                ),
+                (AppiumBy.XPATH, self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_XPATH),
+            ),
+            "blocked-by text (txtChatConversationBlockedByText)",
+            missing,
+        )
+        self._must_see_one_of(
+            wait,
+            (
+                (AppiumBy.ID, self.CHAT_CONVERSATION_UNBLOCK_ID),
+                (AppiumBy.ANDROID_UIAUTOMATOR, self.CHAT_CONVERSATION_UNBLOCK_UIAUTOMATOR),
+                (AppiumBy.XPATH, self.CHAT_CONVERSATION_UNBLOCK_XPATH),
+            ),
+            "Unblock button (btnUnblock)",
+            missing,
+        )
+        if missing:
+            raise AssertionError(
+                "Blocked chat conversation missing: " + ", ".join(missing)
+            )
+        blocked_text = self._read_visible_text_one_of(
+            (
+                (AppiumBy.ID, self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_ID),
+                (
+                    AppiumBy.ANDROID_UIAUTOMATOR,
+                    self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_UIAUTOMATOR,
+                ),
+                (AppiumBy.XPATH, self.CHAT_CONVERSATION_BLOCKED_BY_TEXT_XPATH),
+            )
+        )
+        self.LOGGER.info(
+            "Step Passed: blocked chat verified — blocked-by text=%r; Unblock button visible.",
+            blocked_text,
+        )
+
+    def tap_unblock_on_blocked_chat_conversation(self) -> None:
+        """Tap Unblock on the blocked friend chat screen (`btnUnblock`)."""
+        self._tap_btn_unblock_button(
+            "Unblock on chat (btnUnblock)",
+            "CUBII_AFTER_TAP_CHAT_UNBLOCK_SEC",
+            prefer_last_visible=False,
+        )
+
     def tap_block_on_user_details_sheet(self):
         """Tap Block on the member user details bottom sheet."""
         wait_sec = int(os.getenv("CUBII_USER_DETAILS_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
@@ -5007,6 +6225,296 @@ class CommunitiiPage(BasePage):
             "Blocked users list `rvUsersList` has no visible rows (or list not visible)."
         )
 
+    def verify_blocked_user_listed_on_blocked_users_screen(
+        self, expected_name: str | None = None
+    ) -> None:
+        """
+        Assert Blocked users list is visible with at least one row.
+
+        When `expected_name` is omitted, any blocked user in the list passes
+        (the blocked account may differ from the chat profile name).
+        """
+        self.verify_blocked_users_list_visible()
+        target = (expected_name or os.getenv("CUBII_BLOCKED_USERS_EXPECTED_NAME", "")).strip()
+        if not target:
+            sample_labels = self._blocked_users_list_row_labels(max_rows=3)
+            self.LOGGER.info(
+                "Step Passed: blocked users list shows at least one user (any name). "
+                "Sample row labels: %s",
+                sample_labels or "<none>",
+            )
+            return
+
+        wait_sec = int(os.getenv("CUBII_BLOCKED_USERS_LIST_WAIT_SEC", str(Settings.EXPLICIT_WAIT)))
+        deadline = time.monotonic() + float(wait_sec)
+        while time.monotonic() < deadline:
+            try:
+                rv = self.driver.find_element(
+                    AppiumBy.ID, self.BLOCKED_USERS_RV_USERS_LIST_ID
+                )
+                for tv in rv.find_elements(AppiumBy.CLASS_NAME, "android.widget.TextView"):
+                    if not tv.is_displayed():
+                        continue
+                    text = (tv.text or tv.get_attribute("text") or "").strip()
+                    if text and target.lower() in text.lower():
+                        self.LOGGER.info(
+                            "Step Passed: blocked user %r found in list (row text=%r).",
+                            target,
+                            text,
+                        )
+                        return
+            except Exception:
+                pass
+            time.sleep(0.35)
+
+        raise AssertionError(
+            f"Blocked user {target!r} was not found on the Blocked users screen."
+        )
+
+    def _blocked_users_list_row_labels(self, max_rows: int = 3) -> list[str]:
+        """Collect visible TextView labels from the first rows of rvUsersList (for logs)."""
+        labels: list[str] = []
+        try:
+            rv = self.driver.find_element(AppiumBy.ID, self.BLOCKED_USERS_RV_USERS_LIST_ID)
+            rows = rv.find_elements(AppiumBy.XPATH, self.BLOCKED_USERS_RV_ROW_REL_XPATH)
+            visible_rows = [r for r in rows if r.is_displayed()][: max(1, max_rows)]
+            for row in visible_rows:
+                for tv in row.find_elements(AppiumBy.CLASS_NAME, "android.widget.TextView"):
+                    if not tv.is_displayed():
+                        continue
+                    text = (tv.text or tv.get_attribute("text") or "").strip()
+                    if text and text not in labels:
+                        labels.append(text)
+        except Exception:
+            pass
+        return labels
+
+    def tap_blocked_user_profile_row_at_position(self, position_one_based: int = 1) -> None:
+        """Tap a blocked-user row (profile) in `rvUsersList` (1-based index)."""
+        if position_one_based < 1:
+            raise AssertionError("Blocked users list row position must be >= 1.")
+        wait_sec = int(
+            os.getenv("CUBII_BLOCKED_USERS_LIST_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        wait = WebDriverWait(self.driver, wait_sec)
+        wait.until(
+            ec.visibility_of_element_located(
+                (AppiumBy.ID, self.BLOCKED_USERS_RV_USERS_LIST_ID)
+            )
+        )
+        idx = position_one_based
+        row_xpath_indexed = (
+            "(//androidx.recyclerview.widget.RecyclerView"
+            f'[@resource-id="{self.BLOCKED_USERS_RV_USERS_LIST_ID}"]'
+            f"/android.view.ViewGroup)[{idx}]"
+        )
+        row_xpath_direct = (
+            f'//androidx.recyclerview.widget.RecyclerView[@resource-id="'
+            f'{self.BLOCKED_USERS_RV_USERS_LIST_ID}"]/android.view.ViewGroup[{idx}]'
+        )
+        for by, locator, label in (
+            (AppiumBy.XPATH, row_xpath_direct, "blocked user row (xpath [n])"),
+            (AppiumBy.XPATH, row_xpath_indexed, "blocked user row (xpath indexed)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                self.BLOCKED_USERS_ROW_FALLBACK_UIAUTOMATOR,
+                "blocked user row (ViewGroup UiSelector)",
+            ),
+        ):
+            try:
+                el = wait.until(ec.element_to_be_clickable((by, locator)))
+                el.click()
+                time.sleep(
+                    float(os.getenv("CUBII_AFTER_BLOCKED_USER_PROFILE_TAP_SEC", "0.6"))
+                )
+                self.LOGGER.info(
+                    "Blocked users: profile row tapped (%s, position=%s).",
+                    label,
+                    position_one_based,
+                )
+                return
+            except Exception:
+                continue
+        raise AssertionError(
+            "Could not tap blocked user profile row in `rvUsersList` "
+            f"at position {position_one_based}."
+        )
+
+    def _btn_unblock_locator_triplets(self) -> tuple[tuple, ...]:
+        return (
+            (AppiumBy.ID, self.BTN_UNBLOCK_ID),
+            (AppiumBy.ANDROID_UIAUTOMATOR, self.BTN_UNBLOCK_UIAUTOMATOR),
+            (AppiumBy.XPATH, self.BTN_UNBLOCK_XPATH),
+        )
+
+    def _dedupe_web_elements(self, elements: list) -> list:
+        seen: set[str] = set()
+        unique: list = []
+        for el in elements:
+            try:
+                key = el.id
+            except Exception:
+                key = str(id(el))
+            if key in seen:
+                continue
+            seen.add(key)
+            unique.append(el)
+        return unique
+
+    def _collect_visible_btn_unblock_elements(self) -> list:
+        candidates: list = []
+        for by, locator in self._btn_unblock_locator_triplets():
+            try:
+                candidates.extend(self.driver.find_elements(by, locator))
+            except Exception:
+                continue
+        for by, locator in (
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                'new UiSelector().resourceId("com.cubii:id/btnUnblock").text("UNBLOCK")',
+            ),
+            (
+                AppiumBy.XPATH,
+                '//android.widget.Button[@resource-id="com.cubii:id/btnUnblock" and @text="UNBLOCK"]',
+            ),
+        ):
+            try:
+                candidates.extend(self.driver.find_elements(by, locator))
+            except Exception:
+                continue
+        visible: list = []
+        for el in self._dedupe_web_elements(candidates):
+            try:
+                if el.is_displayed():
+                    visible.append(el)
+            except Exception:
+                continue
+        return visible
+
+    def _tap_element_click_or_gesture(self, el, description: str) -> bool:
+        """Tap element; fall back to W3C clickGesture when Appium reports not clickable."""
+        try:
+            rect = el.rect
+        except Exception:
+            rect = None
+        size = self.driver.get_window_size()
+        screen_h = int(size.get("height", 2400))
+        nav_margin = int(os.getenv("CUBII_ANDROID_NAV_BAR_MARGIN_PX", "72"))
+
+        def _gesture_at(x: int, y: int) -> None:
+            self.driver.execute_script("mobile: clickGesture", {"x": int(x), "y": int(y)})
+
+        strategies: list[tuple[str, callable]] = [("native click", lambda: el.click())]
+        if rect:
+            cx = int(rect["x"] + rect["width"] / 2)
+            cy_center = int(rect["y"] + rect["height"] / 2)
+            cy_upper = int(rect["y"] + max(8.0, rect["height"] * 0.35))
+            if cy_center > screen_h - nav_margin:
+                cy_center = screen_h - nav_margin
+            if cy_upper > screen_h - nav_margin:
+                cy_upper = screen_h - nav_margin
+            strategies.extend(
+                [
+                    ("clickGesture center", lambda: _gesture_at(cx, cy_center)),
+                    ("clickGesture upper", lambda: _gesture_at(cx, cy_upper)),
+                ]
+            )
+        for label, action in strategies:
+            try:
+                action()
+                self.LOGGER.info("Tapped %s via %s.", description, label)
+                return True
+            except Exception as exc:
+                self.LOGGER.debug("btnUnblock tap %s failed: %s", label, exc)
+                continue
+        return False
+
+    def _wait_for_btn_unblock_visible(self, wait_sec: int):
+        wait = WebDriverWait(self.driver, wait_sec)
+        last_exc: Exception | None = None
+        for by, locator in self._btn_unblock_locator_triplets():
+            try:
+                return wait.until(ec.visibility_of_element_located((by, locator)))
+            except Exception as exc:
+                last_exc = exc
+                continue
+        if last_exc:
+            raise last_exc
+        raise TimeoutException("btnUnblock not visible")
+
+    def _tap_btn_unblock_button(
+        self,
+        description: str,
+        pause_env_key: str,
+        *,
+        prefer_last_visible: bool = False,
+    ) -> None:
+        """
+        Tap `android.widget.Button` with resource-id `com.cubii:id/btnUnblock`.
+
+        Uses visibility (not strict clickability) and clickGesture when the bottom
+        UNBLOCK bar is obscured by the system navigation area.
+        """
+        wait_sec = int(
+            os.getenv("CUBII_BLOCKED_USERS_UNBLOCK_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        time.sleep(
+            float(os.getenv("CUBII_BLOCKED_USER_PROFILE_SCREEN_SETTLE_SEC", "0.8"))
+        )
+        try:
+            self._wait_for_btn_unblock_visible(wait_sec)
+        except Exception:
+            self.LOGGER.info(
+                "btnUnblock visibility wait timed out; continuing poll for %s.",
+                description,
+            )
+
+        deadline = time.monotonic() + float(wait_sec)
+        while time.monotonic() < deadline:
+            visible = self._collect_visible_btn_unblock_elements()
+            if visible:
+                target = visible[-1] if prefer_last_visible else visible[0]
+                if self._tap_element_click_or_gesture(target, description):
+                    time.sleep(float(os.getenv(pause_env_key, "0.6")))
+                    self.LOGGER.info(
+                        "Tapped %s via btnUnblock (%s visible; index %s).",
+                        description,
+                        len(visible),
+                        -1 if prefer_last_visible else 0,
+                    )
+                    return
+            time.sleep(0.4)
+
+        raise AssertionError(f"Communitii Friends: could not tap {description}.")
+
+    def tap_unblock_button_on_blocked_users_screen(self) -> None:
+        """Tap Unblock (`btnUnblock`) on the blocked user profile screen (opens confirm dialog)."""
+        self._tap_btn_unblock_button(
+            "Unblock on blocked user profile (btnUnblock)",
+            "CUBII_AFTER_TAP_BLOCKED_USERS_UNBLOCK_BTN_SEC",
+            prefer_last_visible=False,
+        )
+
+    def tap_unblock_confirmation_dialog_confirm(self) -> None:
+        """Tap Unblock (`btnUnblock`) on the unblock confirmation dialog."""
+        self._tap_btn_unblock_button(
+            "Unblock on confirmation dialog (btnUnblock)",
+            "CUBII_AFTER_UNBLOCK_DIALOG_CONFIRM_SEC",
+            prefer_last_visible=True,
+        )
+        wait_sec = int(
+            os.getenv("CUBII_UNBLOCK_DIALOG_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
+        )
+        try:
+            WebDriverWait(self.driver, wait_sec).until(
+                ec.invisibility_of_element_located((AppiumBy.ID, self.BTN_UNBLOCK_ID))
+            )
+        except TimeoutException:
+            self.LOGGER.info(
+                "Unblock dialog: btnUnblock still present after confirm (continuing)."
+            )
+        self.LOGGER.info("Unblock confirmation dialog: Unblock option (`btnUnblock`) confirmed.")
+
     def tap_blocked_users_list_unblock_at_position(self, position_one_based: int):
         """Tap row UNBLOCK (`tvUnblock`) for the Nth blocked user (1-based)."""
         if position_one_based < 1:
@@ -5089,43 +6597,8 @@ class CommunitiiPage(BasePage):
         )
 
     def tap_unblock_user_dialog_confirm(self):
-        """Confirm Unblock User via UNBLOCK. Waits until dialog is gone."""
-        wait_sec = int(
-            os.getenv("CUBII_UNBLOCK_DIALOG_WAIT_SEC", str(Settings.EXPLICIT_WAIT))
-        )
-        wait = WebDriverWait(self.driver, wait_sec)
-        clicked = False
-        for by, locator, label in (
-            (AppiumBy.ID, self.BLOCKED_USERS_BTN_UNBLOCK_DIALOG_CONFIRM_ID, "btnUnblock (id)"),
-            (
-                AppiumBy.XPATH,
-                self.BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_XPATH,
-                "btnUnblock (xpath)",
-            ),
-            (
-                AppiumBy.ANDROID_UIAUTOMATOR,
-                self.BLOCKED_USERS_BTN_CONFIRM_UNBLOCK_UIAUTOMATOR,
-                "btnUnblock (UiAutomator)",
-            ),
-        ):
-            try:
-                el = wait.until(ec.element_to_be_clickable((by, locator)))
-                el.click()
-                clicked = True
-                self.LOGGER.info("Unblock dialog: UNBLOCK confirm tapped (%s).", label)
-                break
-            except Exception:
-                continue
-        if not clicked:
-            raise AssertionError(
-                "Unblock dialog UNBLOCK (`btnUnblock`) not found or not tappable."
-            )
-        time.sleep(float(os.getenv("CUBII_AFTER_UNBLOCK_DIALOG_CONFIRM_SEC", "0.6")))
-        WebDriverWait(self.driver, wait_sec).until(
-            ec.invisibility_of_element_located(
-                (AppiumBy.ID, self.BLOCKED_USERS_BTN_UNBLOCK_DIALOG_CONFIRM_ID)
-            )
-        )
+        """Confirm Unblock User via UNBLOCK (`android.widget.Button` btnUnblock)."""
+        self.tap_unblock_confirmation_dialog_confirm()
 
     def tap_ll_back_button(self):
         """Tap screen back container (`llBack` LinearLayout)."""

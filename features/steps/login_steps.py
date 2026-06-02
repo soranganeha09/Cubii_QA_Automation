@@ -64,6 +64,23 @@ def step_verify_logged_in(context):
         raise
 
 
+@when("the user completes FTUE if required")
+@then("the user completes FTUE if required")
+def step_complete_ftue_if_required(context):
+    LOGGER.info("Step: completing FTUE overlays when present after login or sign up.")
+    try:
+        handled = context.ftue_page.complete_ftue_if_present()
+        if handled:
+            LOGGER.info("Post-login FTUE walkthrough completed.")
+        else:
+            LOGGER.info("No post-login FTUE was required.")
+    except Exception as exc:
+        LOGGER.exception("Post-login FTUE handling failed: %s", exc)
+        raise AssertionError(
+            f"Unable to complete FTUE after login. Error: {exc}"
+        ) from exc
+
+
 @when("the user taps Continue with Google")
 def step_tap_continue_with_google(context):
     LOGGER.info("Step: tapping 'Login with Google'.")
@@ -115,16 +132,16 @@ def step_select_google_account(context):
 
 @then("the user is redirected to the Cubii home screen")
 def step_verify_redirected_home(context):
-    LOGGER.info("Step: verifying redirect to Cubii home screen after Google login.")
+    LOGGER.info("Step: verifying redirect to Cubii home screen.")
     try:
         assert context.login_page.is_logged_in(), (
-            "App did not return to home screen after Google login."
+            "App did not return to home screen after authentication."
         )
-        LOGGER.info("Google Login scenario passed.")
-        print("SUCCESS: User logged in successfully via Google.")
+        LOGGER.info("Home screen verification passed.")
+        print("SUCCESS: User reached Cubii home screen.")
     except Exception as exc:
-        LOGGER.exception("Google login verification failed: %s", exc)
-        print(f"FAILURE: Google login flow failed. Error: {exc}")
+        LOGGER.exception("Home screen verification failed: %s", exc)
+        print(f"FAILURE: Home screen verification failed. Error: {exc}")
         raise
 
 
@@ -157,7 +174,9 @@ def step_confirm_logout(context):
     LOGGER.info("Step: tapping Logout confirmation button.")
     try:
         context.home_page.tap_logout_confirm()
-        context.bootstrap_completed = False
+        from features.environment import reset_bootstrap_state
+
+        reset_bootstrap_state(context)
     except Exception as exc:
         LOGGER.exception("Confirming Logout failed: %s", exc)
         raise AssertionError(

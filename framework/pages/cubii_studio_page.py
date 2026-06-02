@@ -972,6 +972,21 @@ class CubiiStudioPage(BasePage):
             },
         )
 
+    def _scroll_studio_screen_up_one(self) -> None:
+        """Scroll the Studio home screen up to reveal sections above the fold."""
+        size = self.driver.get_window_size()
+        self.driver.execute_script(
+            "mobile: scrollGesture",
+            {
+                "left": int(size["width"] * 0.1),
+                "top": int(size["height"] * 0.25),
+                "width": int(size["width"] * 0.8),
+                "height": int(size["height"] * 0.5),
+                "direction": "up",
+                "percent": float(os.getenv("CUBII_STUDIO_HOME_SCROLL_UP_PERCENT", "0.45")),
+            },
+        )
+
     def _scroll_saved_videos_list(self, direction: str) -> None:
         """Scroll the saved videos list up or down."""
         size = self.driver.get_window_size()
@@ -2457,6 +2472,22 @@ class CubiiStudioPage(BasePage):
         self.LOGGER.info("Studio: verify category %r (txtCategoryTitle) is visible.", title)
         max_scrolls = int(os.getenv("CUBII_STUDIO_CATEGORY_SCROLL_ATTEMPTS", "14"))
         pause = float(os.getenv("CUBII_STUDIO_CATEGORY_SCROLL_PAUSE_SEC", "0.5"))
+        first_category = self.STUDIO_VIEW_ALL_CATEGORIES[0]
+        if title == first_category and not self._is_visible(locators):
+            up_scrolls = int(os.getenv("CUBII_STUDIO_CATEGORY_SCROLL_UP_ATTEMPTS", "3"))
+            self.LOGGER.info(
+                "Studio: first category %r not visible; scrolling up (%s attempt(s)).",
+                title,
+                up_scrolls,
+            )
+            for attempt in range(up_scrolls):
+                self._scroll_studio_screen_up_one()
+                time.sleep(pause)
+                if self._is_visible(locators):
+                    self.LOGGER.info(
+                        "Studio: category %r visible after %s up scroll(s).", title, attempt + 1
+                    )
+                    return
         for attempt in range(max_scrolls + 1):
             if self._is_visible(locators):
                 self.LOGGER.info(
