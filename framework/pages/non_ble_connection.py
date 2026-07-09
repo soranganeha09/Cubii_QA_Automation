@@ -958,6 +958,16 @@ class NonBleConnectionPage(BasePage):  # Page object for Cubii Non-BLE connectio
                         direction="up" if delta_m > 0 else "down",
                     )
 
+            picker_hours = self._read_duration_picker_digits(hours_picker)
+            picker_minutes = self._read_duration_picker_digits(minutes_picker)
+            picker_text = f"{picker_hours or '??'}:{picker_minutes or '??'}"
+            if picker_hours != str(target_hours).zfill(2) or picker_minutes != str(target_minutes).zfill(2):
+                raise AssertionError(
+                    "Duration picker did not reach target before submit. "
+                    f"Target={target_text!r}, picker={picker_text!r}. "
+                    "Refusing to submit an invalid/default duration."
+                )
+
             self._wait_clickable(
                 AppiumBy.ID, self.DURATION_SUBMIT_BUTTON_ID, "Duration Submit button", timeout=8
             ).click()
@@ -1016,8 +1026,8 @@ class NonBleConnectionPage(BasePage):  # Page object for Cubii Non-BLE connectio
         """
         raw_custom = (os.getenv("CUBII_MANUAL_WORKOUT_DURATION", "") or "").strip()
         if not raw_custom or raw_custom.strip().lower() in {"random", "rand", "random24h", "random_24h"}:
-            # Random duration constrained to 1 minute .. 5 hours (300 minutes).
-            total_minutes = random.randint(1, 300)
+            # The duration wheel moves in 5-minute steps, so random targets must align with it.
+            total_minutes = random.randint(1, 60) * 5
             hours = total_minutes // 60
             minutes = total_minutes % 60
             self.LOGGER.info(
@@ -1119,6 +1129,21 @@ class NonBleConnectionPage(BasePage):  # Page object for Cubii Non-BLE connectio
         except Exception:
             self.LOGGER.debug("Duration picker not editable for `%s`.", resource_id)
             return False
+
+    def _read_duration_picker_digits(self, picker_element):
+        for attr in ("text", "value", "content-desc"):
+            try:
+                observed = (
+                    picker_element.text
+                    if attr == "text"
+                    else picker_element.get_attribute(attr)
+                )
+            except Exception:
+                observed = ""
+            digits = "".join(ch for ch in (observed or "") if ch.isdigit())
+            if digits:
+                return digits[-2:].zfill(2)
+        return ""
 
     def enter_valid_strides_value(self, strides_value=None):
         self.LOGGER.info("Step: Enter valid Strides value.")

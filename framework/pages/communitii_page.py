@@ -3027,6 +3027,18 @@ class CommunitiiPage(BasePage):
                 self.EXPLORE_GROUPS_TV_BACK_BUTTON_UIAUTOMATOR,
                 "tvBackButton (UiAutomator)",
             ),
+            (AppiumBy.ACCESSIBILITY_ID, "Navigate up", "Navigate up (accessibility id)"),
+            (AppiumBy.CLASS_NAME, "android.widget.ImageButton", "Navigate up (class name)"),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                'new UiSelector().description("Navigate up")',
+                "Navigate up (UiAutomator)",
+            ),
+            (
+                AppiumBy.XPATH,
+                '//android.widget.ImageButton[@content-desc="Navigate up"]',
+                "Navigate up (xpath)",
+            ),
         ):
             try:
                 el = wait.until(ec.element_to_be_clickable((by, locator)))

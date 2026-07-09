@@ -29,5 +29,9 @@ Feature: Cubii email sign up
     Then the sign up request is submitted
     And the user completes FTUE if required
     And the user is redirected to the Cubii home screen
+    When the user taps the three dots menu
+    And the user taps Logout from the menu
+    And the user confirms Logout
+    Then the user is signed out and the login screen is visible
 
 

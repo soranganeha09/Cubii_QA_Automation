@@ -25,6 +25,35 @@ ALLURE="$ROOT/node_modules/.bin/allure"
 FAILED=()
 PASSED=0
 
+# ---------------------------------------------------------------------------
+# Report management — always start with a clean slate
+# ---------------------------------------------------------------------------
+ARCHIVE_DIR="$ROOT/reports/archive"
+KEEP_ARCHIVES="${KEEP_ARCHIVES:-10}"   # how many past reports to retain
+
+# 1. Archive the previous HTML report before it gets overwritten.
+if [[ -d "$ROOT/reports/allure-html" ]]; then
+  TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
+  mkdir -p "$ARCHIVE_DIR"
+  mv "$ROOT/reports/allure-html" "$ARCHIVE_DIR/allure-html_$TIMESTAMP"
+  echo "Archived previous report → reports/archive/allure-html_$TIMESTAMP"
+fi
+
+# 2. Prune archives older than the most recent KEEP_ARCHIVES entries.
+if [[ -d "$ARCHIVE_DIR" ]]; then
+  mapfile -t OLD_ARCHIVES < <(ls -t "$ARCHIVE_DIR" 2>/dev/null | tail -n +$((KEEP_ARCHIVES + 1)))
+  for old in "${OLD_ARCHIVES[@]}"; do
+    rm -rf "$ARCHIVE_DIR/$old"
+    echo "Removed old archive: reports/archive/$old"
+  done
+fi
+
+# 3. Wipe raw Allure results so this run's report contains only current data.
+echo "Clearing allure-results/ for a fresh run..."
+rm -rf "$ROOT/allure-results"
+mkdir -p "$ROOT/allure-results"
+# ---------------------------------------------------------------------------
+
 # Explicit run order (not alphabetical). BLE is disabled via .feature.disabled suffix.
 FEATURE_FILES=(
   cubii_login.feature

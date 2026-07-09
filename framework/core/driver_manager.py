@@ -29,6 +29,9 @@ class DriverManager:
             "appium:newCommandTimeout": Settings.NEW_COMMAND_TIMEOUT,
             "appium:autoGrantPermissions": Settings.AUTO_GRANT_PERMISSIONS,
             "appium:disableWindowAnimation": Settings.DISABLE_WINDOW_ANIMATION,
+            "appium:ignoreHiddenApiPolicyError": Settings.IGNORE_HIDDEN_API_POLICY_ERROR,
+            "appium:skipDeviceInitialization": Settings.SKIP_DEVICE_INITIALIZATION,
+            "appium:skipServerInstallation": Settings.SKIP_SERVER_INSTALLATION,
             }
         )
 

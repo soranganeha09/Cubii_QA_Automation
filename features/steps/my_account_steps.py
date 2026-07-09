@@ -104,6 +104,288 @@ def step_verify_no_workout_reminder_empty_state_if_present(context):
         ) from exc
 
 
+@when("the user click on the ADD REMINDER button")
+@then("the user click on the ADD REMINDER button")
+def step_click_add_reminder_button(context):
+    LOGGER.info("Step: clicking ADD REMINDER button.")
+    try:
+        context.workout_reminder_page.tap_add_reminder_button()
+        LOGGER.info("Step passed: ADD REMINDER button clicked.")
+    except Exception as exc:
+        LOGGER.exception("ADD REMINDER button click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click ADD REMINDER button. Error: {exc}"
+        ) from exc
+
+
+@when("the user verify the Add Reminder screen")
+@then("the user verify the Add Reminder screen")
+def step_verify_add_reminder_screen(context):
+    LOGGER.info("Step: verifying Add Reminder screen.")
+    try:
+        context.workout_reminder_page.verify_add_reminder_screen_visible()
+        LOGGER.info("Step passed: Add Reminder screen verified.")
+    except Exception as exc:
+        LOGGER.exception("Add Reminder screen verification failed: %s", exc)
+        raise AssertionError(
+            f"Add Reminder screen verification failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user set the reminder time for the workout")
+@then("the user set the reminder time for the workout")
+def step_set_workout_reminder_time(context):
+    LOGGER.info("Step: set workout reminder time.")
+    try:
+        context.workout_reminder_page.set_workout_reminder_time()
+        LOGGER.info("Step passed: workout reminder time controls verified.")
+    except Exception as exc:
+        LOGGER.exception("Workout reminder time setup failed: %s", exc)
+        raise AssertionError(
+            f"Workout reminder time setup failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user set the reminder name")
+@then("the user set the reminder name")
+def step_set_workout_reminder_name(context):
+    LOGGER.info("Step: set workout reminder name.")
+    try:
+        context.workout_reminder_page.set_workout_reminder_name()
+        LOGGER.info("Step passed: workout reminder name set.")
+    except Exception as exc:
+        LOGGER.exception("Workout reminder name setup failed: %s", exc)
+        raise AssertionError(
+            f"Workout reminder name setup failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the reminder")
+@then("the user click on the reminder")
+def step_click_first_workout_reminder(context):
+    LOGGER.info("Step: click first saved Workout Reminder.")
+    try:
+        context.workout_reminder_page.tap_first_workout_reminder()
+        LOGGER.info("Step passed: first saved Workout Reminder opened.")
+    except Exception as exc:
+        LOGGER.exception("Opening first saved Workout Reminder failed: %s", exc)
+        raise AssertionError(
+            f"Opening first saved Workout Reminder failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user edit the reminder time and select all the days and add the name")
+@then("the user edit the reminder time and select all the days and add the name")
+def step_edit_workout_reminder_time_days_name(context):
+    LOGGER.info("Step: edit Workout Reminder time, all days, and name.")
+    try:
+        context.workout_reminder_page.edit_workout_reminder_time_days_and_name()
+        LOGGER.info("Step passed: Workout Reminder edited.")
+    except Exception as exc:
+        LOGGER.exception("Editing Workout Reminder failed: %s", exc)
+        raise AssertionError(
+            f"Editing Workout Reminder failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user sets the reminder for 1 minute ahead of the current time")
+@then("the user sets the reminder for 1 minute ahead of the current time")
+def step_set_workout_reminder_for_next_minute(context):
+    LOGGER.info("Step: set workout reminder for 1 minute ahead.")
+    try:
+        context.workout_reminder_page.set_workout_reminder_for_next_minute()
+        LOGGER.info("Step passed: workout reminder scheduled for upcoming minute.")
+    except Exception as exc:
+        LOGGER.exception("Workout reminder next-minute setup failed: %s", exc)
+        raise AssertionError(
+            f"Workout reminder next-minute setup failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the SAVE button")
+@then("the user click on the SAVE button")
+def step_click_save_reminder_button(context):
+    LOGGER.info("Step: clicking SAVE reminder button.")
+    try:
+        context.workout_reminder_page.tap_save_reminder_button()
+        LOGGER.info("Step passed: SAVE reminder button clicked.")
+    except Exception as exc:
+        LOGGER.exception("SAVE reminder button click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click SAVE reminder button. Error: {exc}"
+        ) from exc
+
+
+@when("the user verify the reminder")
+@then("the user verify the reminder")
+def step_verify_saved_workout_reminder(context):
+    LOGGER.info("Step: verifying saved Workout Reminder.")
+    try:
+        context.workout_reminder_page.verify_saved_workout_reminder()
+        LOGGER.info("Step passed: saved Workout Reminder verified.")
+    except Exception as exc:
+        LOGGER.exception("Saved Workout Reminder verification failed: %s", exc)
+        raise AssertionError(
+            f"Saved Workout Reminder verification failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user waits for the scheduled workout reminder notification")
+@then("the user waits for the scheduled workout reminder notification")
+def step_wait_for_scheduled_workout_reminder_notification(context):
+    LOGGER.info("Step: wait for scheduled workout reminder notification.")
+    try:
+        context.workout_reminder_page.wait_for_scheduled_reminder_notification()
+        LOGGER.info("Step passed: waited and opened notification shade.")
+    except Exception as exc:
+        LOGGER.exception("Waiting for workout reminder notification failed: %s", exc)
+        raise AssertionError(
+            f"Waiting for workout reminder notification failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user verifies the workout reminder notification is displayed")
+@then("the user verifies the workout reminder notification is displayed")
+def step_verify_workout_reminder_notification_displayed(context):
+    LOGGER.info("Step: verify workout reminder notification is displayed.")
+    try:
+        context.workout_reminder_page.verify_workout_reminder_notification_displayed()
+        LOGGER.info("Step passed: workout reminder notification displayed.")
+    except Exception as exc:
+        LOGGER.exception("Workout reminder notification verification failed: %s", exc)
+        raise AssertionError(
+            f"Workout reminder notification verification failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user close the notification panel")
+@then("the user close the notification panel")
+@when("the user close the notification paneel")
+@then("the user close the notification paneel")
+def step_close_notification_panel(context):
+    LOGGER.info("Step: close Android notification panel.")
+    try:
+        context.workout_reminder_page.close_notification_panel()
+        LOGGER.info("Step passed: Android notification panel closed.")
+    except Exception as exc:
+        LOGGER.exception("Closing Android notification panel failed: %s", exc)
+        raise AssertionError(
+            f"Closing Android notification panel failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the notification")
+@then("the user click on the notification")
+def step_click_workout_reminder_notification(context):
+    LOGGER.info("Step: click workout reminder notification.")
+    try:
+        context.workout_reminder_page.tap_workout_reminder_notification()
+        LOGGER.info("Step passed: workout reminder notification clicked.")
+    except Exception as exc:
+        LOGGER.exception("Clicking workout reminder notification failed: %s", exc)
+        raise AssertionError(
+            f"Clicking workout reminder notification failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user toggle off the reminder")
+@then("the user toggle off the reminder")
+def step_toggle_off_workout_reminder(context):
+    LOGGER.info("Step: toggle off Workout Reminder switch.")
+    try:
+        context.workout_reminder_page.toggle_workout_reminder_off()
+        LOGGER.info("Step passed: Workout Reminder switch toggled off (or already off).")
+    except Exception as exc:
+        LOGGER.exception("Workout Reminder toggle-off failed: %s", exc)
+        raise AssertionError(
+            f"Workout Reminder toggle-off failed. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on remove option")
+@then("the user click on remove option")
+def step_click_remove_reminder_option(context):
+    LOGGER.info("Step: click REMOVE option on Workout Reminder.")
+    try:
+        context.workout_reminder_page.tap_remove_reminder_option()
+        LOGGER.info("Step passed: REMOVE option clicked.")
+    except Exception as exc:
+        LOGGER.exception("REMOVE option click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click REMOVE option. Error: {exc}"
+        ) from exc
+
+
+@when("the user select the reminder")
+@then("the user select the reminder")
+def step_select_reminder_for_removal(context):
+    LOGGER.info("Step: selecting reminder for removal.")
+    try:
+        context.workout_reminder_page.select_reminder_for_removal()
+        LOGGER.info("Step passed: reminder selected for removal.")
+    except Exception as exc:
+        LOGGER.exception("Selecting reminder for removal failed: %s", exc)
+        raise AssertionError(
+            f"Could not select reminder for removal. Error: {exc}"
+        ) from exc
+
+
+@when("click on the remove option")
+@then("click on the remove option")
+def step_click_remove_action_button(context):
+    LOGGER.info("Step: clicking remove action button.")
+    try:
+        context.workout_reminder_page.click_remove_selected_reminder_button()
+        LOGGER.info("Step passed: remove action button clicked.")
+    except Exception as exc:
+        LOGGER.exception("Remove action button click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click remove action button. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the Workout Reminder cancel button")
+@then("the user click on the Workout Reminder cancel button")
+def step_click_workout_reminder_cancel_button(context):
+    LOGGER.info("Step: click Workout Reminder cancel button.")
+    try:
+        context.workout_reminder_page.tap_workout_reminder_cancel_button()
+        LOGGER.info("Step passed: Workout Reminder cancel button clicked.")
+    except Exception as exc:
+        LOGGER.exception("Workout Reminder cancel button click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click Workout Reminder cancel button. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the back option")
+@then("the user click on the back option")
+def step_click_workout_reminder_back_option(context):
+    LOGGER.info("Step: click Workout Reminder back option (Navigate up).")
+    try:
+        context.workout_reminder_page.tap_workout_reminder_cancel_button()
+        LOGGER.info("Step passed: Workout Reminder back option clicked.")
+    except Exception as exc:
+        LOGGER.exception("Workout Reminder back option click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click Workout Reminder back option. Error: {exc}"
+        ) from exc
+
+
+@when("the user click on the more back option")
+@then("the user click on the more back option")
+def step_click_more_back_option(context):
+    LOGGER.info("Step: click More back option (`iv_back`).")
+    try:
+        context.workout_reminder_page.tap_more_back_option()
+        LOGGER.info("Step passed: More back option clicked.")
+    except Exception as exc:
+        LOGGER.exception("More back option click failed: %s", exc)
+        raise AssertionError(
+            f"Could not click More back option. Error: {exc}"
+        ) from exc
+
+
 @then("the user handles the Set Reminder Permission pop-up if present")
 def step_handle_set_reminder_permission_popup_if_present(context):
     LOGGER.info(

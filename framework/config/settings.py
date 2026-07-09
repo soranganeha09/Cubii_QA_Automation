@@ -21,5 +21,14 @@ class Settings:
     DISABLE_WINDOW_ANIMATION = (
         os.getenv("DISABLE_WINDOW_ANIMATION", "true").lower() == "true"
     )
+    IGNORE_HIDDEN_API_POLICY_ERROR = (
+        os.getenv("IGNORE_HIDDEN_API_POLICY_ERROR", "true").lower() == "true"
+    )
+    SKIP_DEVICE_INITIALIZATION = (
+        os.getenv("SKIP_DEVICE_INITIALIZATION", "true").lower() == "true"
+    )
+    SKIP_SERVER_INSTALLATION = (
+        os.getenv("SKIP_SERVER_INSTALLATION", "true").lower() == "true"
+    )
     NEW_COMMAND_TIMEOUT = int(os.getenv("NEW_COMMAND_TIMEOUT", "300"))
     EXPLICIT_WAIT = int(os.getenv("EXPLICIT_WAIT", "15"))

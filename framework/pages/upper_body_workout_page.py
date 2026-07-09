@@ -224,6 +224,20 @@ class UpperBodyWorkoutPage(BasePage):
         )
         return dict(self._current_expected)
 
+    @staticmethod
+    def _popup_title_contains_today_date(title):
+        """Allow full/short month and optional leading-zero day in popup title date."""
+        now = datetime.now()
+        month_full = calendar.month_name[now.month]
+        month_abbr = calendar.month_abbr[now.month]
+        day = now.day
+        year = now.year
+        patterns = (
+            rf"{month_full}\s+0?{day},\s+{year}",
+            rf"{month_abbr}\s+0?{day},\s+{year}",
+        )
+        return any(re.search(pattern, title) for pattern in patterns)
+
     def verify_workout_entry_popup(self, row1_reps, row2_reps):
         expected = self._require_current_expected(row1_reps, row2_reps)
         self._wait_visible(
@@ -239,12 +253,9 @@ class UpperBodyWorkoutPage(BasePage):
         assert expected["exercise"].lower() in title.lower(), (
             f"Popup title does not contain exercise {expected['exercise']!r}: {title!r}"
         )
-        today_pattern = (
-            rf"{calendar.month_name[datetime.now().month]}\s+"
-            rf"{datetime.now().day},\s+{datetime.now().year}"
-        )
-        assert re.search(today_pattern, title), (
-            f"Popup title does not include today's date. Expected pattern {today_pattern!r}, "
+        assert self._popup_title_contains_today_date(title), (
+            "Popup title does not include today's date in accepted formats "
+            "(e.g., June 2, 2026 or Jun 02, 2026). "
             f"observed {title!r}."
         )
 
@@ -273,12 +284,9 @@ class UpperBodyWorkoutPage(BasePage):
         assert expected["exercise"].lower() in title.lower(), (
             f"Popup title does not contain exercise {expected['exercise']!r}: {title!r}"
         )
-        today_pattern = (
-            rf"{calendar.month_name[datetime.now().month]}\s+"
-            rf"{datetime.now().day},\s+{datetime.now().year}"
-        )
-        assert re.search(today_pattern, title), (
-            f"Popup title does not include today's date. Expected pattern {today_pattern!r}, "
+        assert self._popup_title_contains_today_date(title), (
+            "Popup title does not include today's date in accepted formats "
+            "(e.g., June 2, 2026 or Jun 02, 2026). "
             f"observed {title!r}."
         )
 

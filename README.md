@@ -136,6 +136,60 @@ done
 | `behave` | One | Reused across scenarios | One report at end |
 | One-by-one | One per feature file | Reset each file | Combined HTML after loop (script) |
 
+## Report Management
+
+Every run automatically produces a **fresh** report that reflects only the current test execution — no historical data is mixed in.
+
+### How it works
+
+| Layer | What happens |
+|---|---|
+| `allure-results/` | Wiped at the start of every run (by both `environment.py` and the sequential script) so only the current run's raw data is written |
+| `reports/allure-html/` | Always the **latest** generated HTML report |
+| `reports/archive/` | Previous HTML reports saved with a timestamp before being overwritten |
+| Archive cleanup | The oldest archived reports are automatically deleted; only the last **10** are kept (configurable via `KEEP_ARCHIVES`) |
+
+### Folder layout after a few runs
+
+```
+reports/
+  allure-html/                         ← latest run (always fresh)
+  archive/
+    allure-html_2026-06-01_10-30-00/
+    allure-html_2026-06-01_14-45-22/
+    allure-html_2026-06-02_09-00-11/
+  TESTS-*.xml                          ← JUnit XML (latest run)
+```
+
+### Manually regenerate the HTML report (without re-running tests)
+
+Use this when you want to view the report again after the browser was closed:
+
+```bash
+./node_modules/.bin/allure generate allure-results --clean -o reports/allure-html
+./node_modules/.bin/allure open reports/allure-html
+```
+
+### Override the number of archives to keep
+
+```bash
+KEEP_ARCHIVES=5 ./scripts/run_features_sequential.sh
+```
+
+Set `KEEP_ARCHIVES=0` to delete all old archives after every run.
+
+### Environment variables summary
+
+| Variable | Default | Effect |
+|---|---|---|
+| `CUBII_AUTO_REPORT` | `1` | Set to `0` to skip HTML generation entirely |
+| `CUBII_AUTO_OPEN_REPORT` | `1` | Set to `0` to skip auto-opening the browser |
+| `KEEP_ARCHIVES` | `10` | Number of past HTML reports to retain in `reports/archive/` |
+
+## Troubleshooting
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues (for example ADB `Too many open files` / daemon failed to start).
+
 ## Framework Conventions
 
 - Keep locators and UI actions inside POM classes under `framework/pages/`.

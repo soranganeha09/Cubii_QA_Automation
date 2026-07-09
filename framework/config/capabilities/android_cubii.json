@@ -8,5 +8,8 @@
   "appium:newCommandTimeout": 300,
   "appium:autoGrantPermissions": true,
   "appium:disableWindowAnimation": true,
-  "appium:chromedriverAutodownload": true
+  "appium:chromedriverAutodownload": true,
+  "appium:ignoreHiddenApiPolicyError": true,
+  "appium:skipDeviceInitialization": true,
+  "appium:skipServerInstallation": true
 }

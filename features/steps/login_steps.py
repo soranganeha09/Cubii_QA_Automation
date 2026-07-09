@@ -28,6 +28,71 @@ def step_login_screen_visible(context):
         raise AssertionError(f"Login screen is not visible. Error: {exc}") from exc
 
 
+@when("the user enters unregistered email and password")
+def step_enter_unregistered_credentials(context):
+    LOGGER.info("Step: entering unregistered email and password.")
+    try:
+        context.login_page.enter_unregistered_credentials()
+        LOGGER.info("Unregistered credentials entered.")
+    except Exception as exc:
+        LOGGER.exception("Entering unregistered credentials failed: %s", exc)
+        raise AssertionError(
+            f"Unable to enter unregistered credentials. Error: {exc}"
+        ) from exc
+
+
+@when("the user enters invalid email on login")
+def step_enter_invalid_email_on_login(context):
+    LOGGER.info("Step: entering invalid email on login.")
+    try:
+        context.login_page.enter_invalid_email_on_login()
+        LOGGER.info("Invalid email entered on login.")
+    except Exception as exc:
+        LOGGER.exception("Entering invalid email on login failed: %s", exc)
+        raise AssertionError(
+            f"Unable to enter invalid email on login. Error: {exc}"
+        ) from exc
+
+
+@when("the user enters password on login")
+def step_enter_password_on_login(context):
+    LOGGER.info("Step: entering password on login.")
+    try:
+        context.login_page.enter_login_password()
+        LOGGER.info("Password entered on login.")
+    except Exception as exc:
+        LOGGER.exception("Entering password on login failed: %s", exc)
+        raise AssertionError(
+            f"Unable to enter password on login. Error: {exc}"
+        ) from exc
+
+
+@then("the user verifies the Please enter a valid email error message")
+def step_verify_invalid_email_error_message(context):
+    LOGGER.info("Step: verifying Please enter a valid email error message.")
+    try:
+        context.login_page.verify_invalid_email_error_message()
+        LOGGER.info("Please enter a valid email error message verified.")
+    except Exception as exc:
+        LOGGER.exception("Invalid email error verification failed: %s", exc)
+        raise AssertionError(
+            f"Please enter a valid email error message was not shown. Error: {exc}"
+        ) from exc
+
+
+@then("the user verifies the User does not exist validation message")
+def step_verify_user_does_not_exist_message(context):
+    LOGGER.info("Step: verifying User does not exist validation message.")
+    try:
+        context.login_page.verify_user_does_not_exist_message()
+        LOGGER.info("User does not exist validation message verified.")
+    except Exception as exc:
+        LOGGER.exception("User does not exist validation failed: %s", exc)
+        raise AssertionError(
+            f"User does not exist validation message was not shown. Error: {exc}"
+        ) from exc
+
+
 @when("the user enters valid email and password")
 def step_enter_credentials(context):
     LOGGER.info("Step: entering valid credentials.")

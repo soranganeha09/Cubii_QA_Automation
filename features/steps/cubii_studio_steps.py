@@ -242,19 +242,6 @@ def step_pause_video_on_player(context):
         ) from exc
 
 
-@then("the user click on the back button")
-def step_click_back_button(context):
-    LOGGER.info("Step: tap back button (Navigate up).")
-    try:
-        context.cubii_studio_page.tap_back_button()
-        LOGGER.info("Step passed: back button tapped.")
-    except Exception as exc:
-        LOGGER.exception("Back button tap failed: %s", exc)
-        raise AssertionError(
-            f"Could not tap the back button (Navigate up). Error: {exc}"
-        ) from exc
-
-
 @then("the user click on video screen back button")
 def step_click_video_screen_back_button(context):
     LOGGER.info("Step: tap video screen back button (Navigate up).")

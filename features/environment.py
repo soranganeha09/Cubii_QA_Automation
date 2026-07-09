@@ -20,6 +20,12 @@ from framework.pages.wellness_journii_page import WellnessJourniiPage
 from framework.pages.notification_page import NotificationPage
 from framework.pages.upper_body_workout_page import UpperBodyWorkoutPage
 from framework.pages.workout_reminder_page import WorkoutReminderPage
+from framework.pages.help_page import HelpPage
+from framework.pages.report_a_problem_page import ReportAProblemPage
+from framework.pages.share_cubii_page import ShareCubiiPage
+from framework.pages.cubii_store_page import CubiiStorePage
+from framework.pages.settings_page import SettingsPage
+from framework.pages.goals_page import GoalsPage
 
 LOGGER = logging.getLogger("cubii_environment")
 
@@ -62,6 +68,15 @@ def before_all(context):
         format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     )
     LOGGER.info("Starting BDD test run and creating driver.")
+
+    # Wipe stale Allure results so each run produces a report for this run only.
+    # The sequential script already does this before calling behave, but this
+    # guard ensures single-feature `behave` invocations are also always fresh.
+    allure_results = _project_root() / "allure-results"
+    if allure_results.is_dir():
+        shutil.rmtree(allure_results)
+    allure_results.mkdir(parents=True, exist_ok=True)
+    LOGGER.info("Cleared allure-results/ — fresh report will reflect this run only.")
     context.driver = DriverManager.create_driver()
     context.home_page = HomePage(context.driver)
     context.login_page = LoginPage(context.driver)
@@ -83,6 +98,14 @@ def before_all(context):
     context.in_progress_page = InProgressPage(context.driver)
     context.upper_body_workout_page = UpperBodyWorkoutPage(context.driver)
     context.workout_reminder_page = WorkoutReminderPage(context.driver)
+    context.help_page = HelpPage(context.driver)
+    context.report_a_problem_page = ReportAProblemPage(context.driver)
+    context.share_cubii_page = ShareCubiiPage(context.driver)
+    context.cubii_store_page = CubiiStorePage(context.driver)
+    context.settings_page = SettingsPage(
+        context.driver, context.non_ble_connection_page
+    )
+    context.goals_page = GoalsPage(context.driver)
     reset_bootstrap_state(context)
 
 

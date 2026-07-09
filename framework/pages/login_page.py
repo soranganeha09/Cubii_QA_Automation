@@ -13,8 +13,17 @@ from framework.pages.base_page import BasePage
 class LoginPage(BasePage):
     LOGGER = logging.getLogger("cubii_login_page")
 
-    EMAIL = "neha01@yopmail.com"
+    EMAIL = "neha05@yopmail.com"
     PASSWORD = "123123s"
+    UNREGISTERED_EMAIL = os.getenv(
+        "CUBII_UNREGISTERED_EMAIL", "cubii.unregistered.qa@yopmail.com"
+    )
+    UNREGISTERED_PASSWORD = os.getenv("CUBII_UNREGISTERED_PASSWORD", "TestPassword123")
+    SNACKBAR_TEXT_ID = "com.cubii:id/snackbar_text"
+    USER_DOES_NOT_EXIST_MESSAGE = "User does not exist"
+    TEXTINPUT_ERROR_ID = "com.cubii:id/textinput_error"
+    INVALID_EMAIL = os.getenv("CUBII_INVALID_LOGIN_EMAIL", "invalid-email")
+    VALID_EMAIL_ERROR_MESSAGE = "Please enter a valid email"
 
     EDIT_TEXT_COMMON = (
         AppiumBy.XPATH,
@@ -149,6 +158,16 @@ class LoginPage(BasePage):
     FACEBOOK_EMAIL = os.getenv("CUBII_FB_EMAIL", "cubiilworkout@gmail.com")
     FACEBOOK_PASSWORD = os.getenv("CUBII_FB_PASSWORD", "Aubie@99")
 
+    SNACKBAR_TEXT = (AppiumBy.ID, SNACKBAR_TEXT_ID)
+    SNACKBAR_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        f'//android.widget.TextView[@resource-id="{SNACKBAR_TEXT_ID}"]',
+    )
+    SNACKBAR_TEXT_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        f'new UiSelector().resourceId("{SNACKBAR_TEXT_ID}")',
+    )
+
     def launch_application(self):
         self.LOGGER.info("Launching Cubii application explicitly for login scenario.")
         if Settings.APP_PACKAGE and Settings.APP_ACTIVITY:
@@ -210,6 +229,127 @@ class LoginPage(BasePage):
         password_field.clear()
         password_field.send_keys(password)
         self.LOGGER.info("Password entered.")
+
+    def enter_unregistered_credentials(self):
+        self.LOGGER.info(
+            "Entering unregistered credentials with email `%s`.",
+            self.UNREGISTERED_EMAIL,
+        )
+        self.enter_email(self.UNREGISTERED_EMAIL)
+        self.enter_password(self.UNREGISTERED_PASSWORD)
+
+    def enter_invalid_email_on_login(self):
+        self.LOGGER.info(
+            "Entering invalid email on login form: %s",
+            self.INVALID_EMAIL,
+        )
+        self.enter_email(self.INVALID_EMAIL)
+
+    def enter_login_password(self):
+        self.LOGGER.info("Entering password on login form.")
+        self.enter_password(self.PASSWORD)
+
+    def verify_invalid_email_error_message(self):
+        """Assert textinput_error shows the invalid-email validation message."""
+        expected = self.VALID_EMAIL_ERROR_MESSAGE
+        self.LOGGER.info("Verifying login email error message: %r", expected)
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        locators = (
+            (
+                AppiumBy.XPATH,
+                f'//android.widget.TextView[@resource-id="{self.TEXTINPUT_ERROR_ID}" '
+                f'and @text="{expected}"]',
+                "textinput_error (xpath id+text)",
+            ),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                f'new UiSelector().resourceId("{self.TEXTINPUT_ERROR_ID}")'
+                f'.text("{expected}")',
+                "textinput_error (UiAutomator id+text)",
+            ),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                f'new UiSelector().resourceId("{self.TEXTINPUT_ERROR_ID}")',
+                "textinput_error (UiAutomator id)",
+            ),
+            (AppiumBy.ID, self.TEXTINPUT_ERROR_ID, "textinput_error (id)"),
+            (
+                AppiumBy.XPATH,
+                f'//android.widget.TextView[@resource-id="{self.TEXTINPUT_ERROR_ID}"]',
+                "textinput_error (xpath)",
+            ),
+        )
+        last_err = None
+        for by, value, label in locators:
+            try:
+                element = wait.until(ec.visibility_of_element_located((by, value)))
+                observed = (element.text or "").strip()
+                if observed != expected:
+                    raise AssertionError(
+                        f"Login email error mismatch via {label}: "
+                        f"expected {expected!r}, got {observed!r}."
+                    )
+                self.LOGGER.info(
+                    "Login invalid email error verified via %s: %r",
+                    label,
+                    observed,
+                )
+                return
+            except (TimeoutException, AssertionError) as exc:
+                last_err = exc
+                continue
+
+        raise AssertionError(
+            f"Login invalid email error not visible. Expected: {expected!r}. "
+            f"Last error: {last_err!r}"
+        )
+
+    def verify_user_does_not_exist_message(self):
+        """Assert the login snackbar shows the unregistered-user validation message."""
+        expected = self.USER_DOES_NOT_EXIST_MESSAGE
+        self.LOGGER.info("Verifying login snackbar message: %r", expected)
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        locators = (
+            (
+                AppiumBy.XPATH,
+                f'//android.widget.TextView[@resource-id="{self.SNACKBAR_TEXT_ID}" '
+                f'and @text="{expected}"]',
+                "snackbar_text (xpath id+text)",
+            ),
+            (
+                AppiumBy.ANDROID_UIAUTOMATOR,
+                f'new UiSelector().resourceId("{self.SNACKBAR_TEXT_ID}")'
+                f'.text("{expected}")',
+                "snackbar_text (UiAutomator id+text)",
+            ),
+            (self.SNACKBAR_TEXT_UIAUTOMATOR[0], self.SNACKBAR_TEXT_UIAUTOMATOR[1], "snackbar_text (UiAutomator id)"),
+            (self.SNACKBAR_TEXT[0], self.SNACKBAR_TEXT[1], "snackbar_text (id)"),
+            (self.SNACKBAR_TEXT_XPATH[0], self.SNACKBAR_TEXT_XPATH[1], "snackbar_text (xpath)"),
+        )
+        last_err = None
+        for by, value, label in locators:
+            try:
+                element = wait.until(ec.visibility_of_element_located((by, value)))
+                observed = (element.text or "").strip()
+                if observed != expected:
+                    raise AssertionError(
+                        f"Login snackbar text mismatch via {label}: "
+                        f"expected {expected!r}, got {observed!r}."
+                    )
+                self.LOGGER.info(
+                    "Login snackbar validation verified via %s: %r",
+                    label,
+                    observed,
+                )
+                return
+            except (TimeoutException, AssertionError) as exc:
+                last_err = exc
+                continue
+
+        raise AssertionError(
+            f"Login validation message not visible. Expected: {expected!r}. "
+            f"Last error: {last_err!r}"
+        )
 
     def tap_sign_in(self):
         self.LOGGER.info("Tapping SIGN IN button.")

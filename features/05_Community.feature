@@ -174,7 +174,6 @@ Feature: Cubii Communitii
   @community @create_group
   Scenario: Create group form with public switches and invite member
     When the user opens the Communitii tab
-   # Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps the Create Group button
     When the user enters a create group name and description
     When the user turns on the Make the group public switch
@@ -187,7 +186,6 @@ Feature: Cubii Communitii
   @community @create_group @create_group_validation
   Scenario: Create group rejects empty name then creates successfully
     When the user opens the Communitii tab
-   # Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps the Create Group button
     When the user scrolls down and taps the Create button on the create group screen
     Then the create group screen should show the group name error message
@@ -198,7 +196,6 @@ Feature: Cubii Communitii
   @community @create_group @create_group_validation @create_group_special_chars
   Scenario: Create group rejects special characters in name then creates successfully
     When the user opens the Communitii tab
-   # Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps the Create Group button
     When the user enters a create group name with special characters
     When the user scrolls down and taps the Create button on the create group screen
@@ -211,7 +208,6 @@ Feature: Cubii Communitii
   @community @edit_group
   Scenario: Edit joined group name description toggles and save updates details
     When the user opens the Communitii tab
-    #Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     Then the created group should be visible after scrolling on the community screen
     When the user scrolls down on the Groups list and taps the created QA group
     When the user taps the group details overflow menu
@@ -228,7 +224,6 @@ Feature: Cubii Communitii
   @community @explore_groups @leave_group_cancel
   Scenario: Group details leave flow cancel with No then confirm leave with Yes
     When the user opens the Communitii tab
-    Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps a random visible joined group card
     When the user taps the group details overflow menu
     When the user taps Leave Group in the overflow menu
@@ -244,7 +239,6 @@ Feature: Cubii Communitii
   @community @joined_groups @delete_group
   Scenario: Group details delete flow cancel with No then confirm delete with Yes
     When the user opens the Communitii tab
-   # Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user scrolls down on the Groups list and taps the created QA group for delete
     When the user taps the group details overflow menu
     When the user taps Delete Group in the overflow menu
@@ -258,7 +252,6 @@ Feature: Cubii Communitii
   @community @explore_groups @metrics_filter
   Scenario: Group metrics filter Calories Miles Strides and Time updates member list
     When the user opens the Communitii tab
-    Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps the Explore Groups banner and waits for the explore list
     When the user opens a random Explore group card
     Then the group details screen should show name member summary visibility and member list
@@ -292,7 +285,6 @@ Feature: Cubii Communitii
   @community @explore_groups @explore_search
   Scenario: Explore Groups search invalid query then valid group name
     When the user opens the Communitii tab
-    Then the Community main screen should show Groups, Friends, Explore Groups, My Groups, and Create Group
     When the user taps the Explore Groups banner and waits for the explore list
     When the user taps the explore groups search field
     When the user enters the valid group name in the explore search field

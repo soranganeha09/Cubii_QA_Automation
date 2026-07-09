@@ -3,6 +3,23 @@ Feature: Cubii login
   I want to sign in with valid credentials
   So that I can access the app home screen
 
+  @login @validation @skip_bootstrap
+  Scenario: Login with unregistered email shows User does not exist
+    Given the Cubii application is launched
+    And the Cubii login screen is visible
+    When the user enters unregistered email and password
+    And the user taps the SIGN IN button
+    Then the user verifies the User does not exist validation message
+
+  @login @validation @skip_bootstrap
+  Scenario: Login with invalid email shows validation error
+    Given the Cubii application is launched
+    And the Cubii login screen is visible
+    When the user enters invalid email on login
+    And the user enters password on login
+    And the user taps the SIGN IN button
+    Then the user verifies the Please enter a valid email error message
+
   @smoke @login @skip_bootstrap
   Scenario: Successful Login
     Given the Cubii application is launched
@@ -15,6 +32,7 @@ Feature: Cubii login
     And the user taps Logout from the menu
     And the user confirms Logout
     Then the user is signed out and the login screen is visible
+
 
   @google_login @authentication
   Scenario: Login with Google account and logout

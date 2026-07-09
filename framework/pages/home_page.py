@@ -182,6 +182,16 @@ class HomePage(BasePage):
     CUBII_LOGO_UIAUTOMATOR = 'new UiSelector().resourceId("com.cubii:id/iv_logo")'
     CUBII_LOGO_XPATH = '//android.widget.ImageView[@content-desc="Cubii"]'
 
+    DISTANCE_TITLE = (AppiumBy.ID, "com.cubii:id/txtDistanceTitle")
+    DISTANCE_TITLE_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().resourceId("com.cubii:id/txtDistanceTitle")',
+    )
+    DISTANCE_TITLE_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/txtDistanceTitle"]',
+    )
+
     # Three-dot "Settings" entry point on home top-right.
     SETTINGS_HIGHLIGHT = (AppiumBy.ID, "com.cubii:id/viewSettingsHighlight")
     SETTINGS_HIGHLIGHT_XPATH = (
@@ -230,6 +240,101 @@ class HomePage(BasePage):
     WORKOUT_REMINDER_TOOLBAR_TITLE_UIAUTOMATOR = (
         AppiumBy.ANDROID_UIAUTOMATOR,
         'new UiSelector().resourceId("com.cubii:id/toolbar_title").text("Workout Reminder")',
+    )
+
+    # Settings entry inside the Settings menu (3rd row in com.cubii:id/rv_more).
+    SETTINGS_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[3]",
+    )
+    SETTINGS_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(6)',
+    )
+    SETTINGS_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Settings")',
+    )
+    SETTINGS_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="Settings"]',
+    )
+
+    # Help entry inside the Settings menu (4th row in com.cubii:id/rv_more).
+    HELP_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[4]",
+    )
+    HELP_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(7)',
+    )
+    HELP_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Help")',
+    )
+    HELP_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="Help"]',
+    )
+
+    # Report a Problem entry inside the Settings menu (5th row in com.cubii:id/rv_more).
+    REPORT_A_PROBLEM_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[5]",
+    )
+    REPORT_A_PROBLEM_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(8)',
+    )
+    REPORT_A_PROBLEM_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Report a Problem")',
+    )
+    REPORT_A_PROBLEM_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="Report a Problem"]',
+    )
+
+    # Share Cubii entry inside the Settings menu (6th row in com.cubii:id/rv_more).
+    SHARE_CUBII_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[6]",
+    )
+    SHARE_CUBII_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(9)',
+    )
+    SHARE_CUBII_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("Share Cubii")',
+    )
+    SHARE_CUBII_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="Share Cubii"]',
+    )
+
+    # The Cubii Store entry inside the Settings menu (7th row in com.cubii:id/rv_more).
+    CUBII_STORE_MENU_ITEM = (
+        AppiumBy.XPATH,
+        '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.cubii:id/rv_more"]'
+        "/android.view.ViewGroup[7]",
+    )
+    CUBII_STORE_MENU_ITEM_UIAUTOMATOR = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().className("android.view.ViewGroup").instance(10)',
+    )
+    CUBII_STORE_MENU_ITEM_BY_TEXT = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("The Cubii Store")',
+    )
+    CUBII_STORE_MENU_ITEM_TEXT_XPATH = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@resource-id="com.cubii:id/textView24" and @text="The Cubii Store"]',
     )
 
     # Logout entry inside the "More" / Settings menu (8th row in com.cubii:id/rv_more).
@@ -363,6 +468,110 @@ class HomePage(BasePage):
                 f"`{self.CUBII_LOGO_ID}`, accessibility id `Cubii`, UiAutomator resourceId, "
                 f"and XPath `{self.CUBII_LOGO_XPATH}`."
             )
+
+    def verify_kms_display_on_home_screen(self) -> None:
+        """Assert the home distance unit label shows KMS/KM after switching units."""
+        expected = (
+            os.getenv("CUBII_HOME_DISTANCE_UNIT_LABEL", "KMS") or "KMS"
+        ).strip()
+        self.LOGGER.info(
+            "Verifying home distance title (`txtDistanceTitle`) shows %r.", expected
+        )
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        for locator in (
+            self.DISTANCE_TITLE,
+            self.DISTANCE_TITLE_UIAUTOMATOR,
+            self.DISTANCE_TITLE_XPATH,
+        ):
+            try:
+                element = wait.until(ec.visibility_of_element_located(locator))
+                title_text = (
+                    (element.text or "")
+                    + " "
+                    + (element.get_attribute("text") or "")
+                ).strip()
+                if not title_text:
+                    continue
+                normalized = " ".join(title_text.split())
+                if self._matches_kms_distance_label(normalized, expected):
+                    self.LOGGER.info(
+                        "Home distance unit verified via `%s`: %r.",
+                        locator[1],
+                        title_text,
+                    )
+                    return
+                raise AssertionError(
+                    f"Home distance title was {title_text!r}; expected {expected!r}."
+                )
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Home distance title locator `%s` failed; trying next.", locator[1]
+                )
+            except AssertionError:
+                raise
+        raise AssertionError(
+            f"Home distance title (`txtDistanceTitle`) was not visible with {expected!r}."
+        )
+
+    def verify_miles_display_on_home_screen(self) -> None:
+        """Assert the home distance unit label shows Miles after switching units."""
+        expected = (
+            os.getenv("CUBII_HOME_DISTANCE_MILES_LABEL", "Miles") or "Miles"
+        ).strip()
+        self.LOGGER.info(
+            "Verifying home distance title (`txtDistanceTitle`) shows %r.", expected
+        )
+        wait = WebDriverWait(self.driver, Settings.EXPLICIT_WAIT)
+        for locator in (
+            self.DISTANCE_TITLE,
+            self.DISTANCE_TITLE_UIAUTOMATOR,
+            self.DISTANCE_TITLE_XPATH,
+        ):
+            try:
+                element = wait.until(ec.visibility_of_element_located(locator))
+                title_text = (
+                    (element.text or "")
+                    + " "
+                    + (element.get_attribute("text") or "")
+                ).strip()
+                if not title_text:
+                    continue
+                normalized = " ".join(title_text.split())
+                if self._matches_miles_distance_label(normalized, expected):
+                    self.LOGGER.info(
+                        "Home distance unit verified via `%s`: %r.",
+                        locator[1],
+                        title_text,
+                    )
+                    return
+                raise AssertionError(
+                    f"Home distance title was {title_text!r}; expected {expected!r}."
+                )
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Home distance title locator `%s` failed; trying next.", locator[1]
+                )
+            except AssertionError:
+                raise
+        raise AssertionError(
+            f"Home distance title (`txtDistanceTitle`) was not visible with {expected!r}."
+        )
+
+    @staticmethod
+    def _matches_kms_distance_label(title_text: str, expected: str) -> bool:
+        lowered = title_text.lower()
+        expected_lower = expected.lower()
+        if expected_lower in lowered:
+            return True
+        return "km" in lowered or "kms" in lowered
+
+    @staticmethod
+    def _matches_miles_distance_label(title_text: str, expected: str) -> bool:
+        lowered = title_text.lower()
+        expected_lower = expected.lower()
+        if expected_lower in lowered:
+            return True
+        return "miles" in lowered or "mi" == lowered.strip()
 
     def connect_ble_device_end_to_end(self, scan_retries=3):
         self.LOGGER.info("Starting end-to-end BLE connection flow.")
@@ -1664,6 +1873,99 @@ class HomePage(BasePage):
                 )
         raise TimeoutException("Workout Reminder menu item could not be located.")
 
+    def tap_settings_menu_item(self):
+        self.LOGGER.info("Tapping Settings entry in Settings menu.")
+        for locator in (
+            self.SETTINGS_MENU_ITEM,
+            self.SETTINGS_MENU_ITEM_UIAUTOMATOR,
+            self.SETTINGS_MENU_ITEM_BY_TEXT,
+            self.SETTINGS_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Settings menu item tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Settings menu locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException("Settings menu item could not be located.")
+
+    def tap_help_menu_item(self):
+        self.LOGGER.info("Tapping Help entry in Settings menu.")
+        for locator in (
+            self.HELP_MENU_ITEM,
+            self.HELP_MENU_ITEM_UIAUTOMATOR,
+            self.HELP_MENU_ITEM_BY_TEXT,
+            self.HELP_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Help menu item tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Help menu locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException("Help menu item could not be located.")
+
+    def tap_report_a_problem_menu_item(self):
+        self.LOGGER.info("Tapping Report a Problem entry in Settings menu.")
+        for locator in (
+            self.REPORT_A_PROBLEM_MENU_ITEM,
+            self.REPORT_A_PROBLEM_MENU_ITEM_UIAUTOMATOR,
+            self.REPORT_A_PROBLEM_MENU_ITEM_BY_TEXT,
+            self.REPORT_A_PROBLEM_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Report a Problem menu item tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Report a Problem menu locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException("Report a Problem menu item could not be located.")
+
+    def tap_share_cubii_menu_item(self):
+        self.LOGGER.info("Tapping Share Cubii entry in Settings menu.")
+        for locator in (
+            self.SHARE_CUBII_MENU_ITEM,
+            self.SHARE_CUBII_MENU_ITEM_UIAUTOMATOR,
+            self.SHARE_CUBII_MENU_ITEM_BY_TEXT,
+            self.SHARE_CUBII_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info("Share Cubii menu item tapped via `%s`.", locator[1])
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "Share Cubii menu locator `%s` failed; trying next.", locator[1]
+                )
+        raise TimeoutException("Share Cubii menu item could not be located.")
+
+    def tap_cubii_store_menu_item(self):
+        self.LOGGER.info("Tapping The Cubii Store entry in Settings menu.")
+        for locator in (
+            self.CUBII_STORE_MENU_ITEM,
+            self.CUBII_STORE_MENU_ITEM_UIAUTOMATOR,
+            self.CUBII_STORE_MENU_ITEM_BY_TEXT,
+            self.CUBII_STORE_MENU_ITEM_TEXT_XPATH,
+        ):
+            try:
+                self.wait.until(ec.element_to_be_clickable(locator)).click()
+                self.LOGGER.info(
+                    "The Cubii Store menu item tapped via `%s`.", locator[1]
+                )
+                return
+            except TimeoutException:
+                self.LOGGER.info(
+                    "The Cubii Store menu locator `%s` failed; trying next.",
+                    locator[1],
+                )
+        raise TimeoutException("The Cubii Store menu item could not be located.")
+
     def verify_workout_reminder_screen_visible(self):
         self.LOGGER.info("Verifying Workout Reminder screen is visible.")
         for locator in (
@@ -1799,6 +2101,15 @@ class HomePage(BasePage):
             except TimeoutException:
                 continue
         raise TimeoutException("Back button (`iv_back`) could not be located.")
+
+    def close_application(self) -> None:
+        """Terminate the Cubii app from the device."""
+        if not Settings.APP_PACKAGE:
+            raise AssertionError("APP_PACKAGE is required to close the application.")
+        self.LOGGER.info("Closing application (`%s`).", Settings.APP_PACKAGE)
+        self.driver.terminate_app(Settings.APP_PACKAGE)
+        time.sleep(float(os.getenv("CUBII_AFTER_CLOSE_APP_SEC", "0.5")))
+        self.LOGGER.info("Application closed.")
 
     def navigate_back_to_more_menu(self, max_backs=3):
         self.LOGGER.info("Navigating back to More menu (up to %s tap(s)).", max_backs)

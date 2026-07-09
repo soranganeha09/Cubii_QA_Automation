@@ -585,6 +585,61 @@ class InProgressPage(BasePage):
         blob = self._collect_descendant_visible_text(strip)
         return blob or ""
 
+    def _read_summary_strides_display_with_resync(self, source_name, dest_name):
+        """
+        Best-effort summary strides read after drill navigation.
+        Some app states briefly render without summary strip; retry with small
+        settle pauses and one gentle scroll re-sync before failing.
+        """
+        attempts = int(os.getenv("CUBII_DRILL_SUMMARY_READ_RETRIES", "3"))
+        settle_sec = float(os.getenv("CUBII_DRILL_SUMMARY_RETRY_PAUSE_SEC", "0.8"))
+        last_exc = None
+        for i in range(attempts):
+            try:
+                val = self._read_summary_strides_display()
+                if val and val.strip():
+                    return val
+            except Exception as exc:
+                last_exc = exc
+                self.LOGGER.warning(
+                    "Progress | summary strides read retry %s/%s after %s→%s drill failed: %s",
+                    i + 1,
+                    attempts,
+                    source_name,
+                    dest_name,
+                    exc,
+                )
+
+            # Re-sync viewport once if summary container may be just offscreen.
+            if i == 0:
+                try:
+                    self._scroll_progress_vertical(direction="down", percent=0.30)
+                    self._scroll_progress_vertical(direction="up", percent=0.30)
+                except Exception:
+                    pass
+            time.sleep(settle_sec)
+
+        after_title = ""
+        try:
+            after_title = self._read_date_range_text()
+        except Exception:
+            pass
+        self._log_progress_block(
+            f"DRILL RESYNC FAILED — summary strip missing ({source_name}→{dest_name})",
+            [
+                ("txtTitleDateRange_after_failed_resync", after_title),
+                ("source_period_tab_ui", source_name),
+                ("dest_period_ui", dest_name),
+                ("summary_read_last_exception", repr(last_exc)),
+            ]
+            + self._safe_snap_summary_rows(),
+        )
+        raise AssertionError(
+            f"After {source_name}→{dest_name} drill, summary strides strip was not readable "
+            f"after {attempts} retries. Date range now={after_title!r}. "
+            f"Last error={last_exc!r}."
+        )
+
     def _wait_activity_drill_transition(self, baseline_title, dest_tab_id, timeout=None):
         wait_sec = timeout if timeout is not None else max(18.0, float(Settings.EXPLICIT_WAIT))
         deadline = time.monotonic() + wait_sec
@@ -755,7 +810,7 @@ class InProgressPage(BasePage):
                 after_title,
             )
 
-        strides_summary = self._read_summary_strides_display()
+        strides_summary = self._read_summary_strides_display_with_resync(source_name, dest_name)
         if not self._stride_displays_equivalent(strides_card, strides_summary):
             raise AssertionError(
                 f"Strides mismatch after {source_name}→{dest_name} drill: "

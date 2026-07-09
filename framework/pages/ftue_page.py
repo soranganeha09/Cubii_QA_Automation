@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException, WebDriverException
@@ -13,7 +14,7 @@ from framework.pages.base_page import BasePage
 class FTUEPage(BasePage):
     LOGGER = logging.getLogger("cubii_ftue_page")
 
-    EMAIL = os.getenv("CUBII_TEST_EMAIL", "neha01@yopmail.com")
+    EMAIL = os.getenv("CUBII_TEST_EMAIL", "neha05@yopmail.com")
     PASSWORD = os.getenv("CUBII_TEST_PASSWORD", "123123s")
 
     LOGIN_INPUT_COMMON = (
@@ -497,16 +498,35 @@ class FTUEPage(BasePage):
         return True
 
     def execute_ftue_dynamic_flow(self):
+        bootstrap_start = time.monotonic()
         self.launch_application()
         self.handle_wellness_journii_webview()
         initial_state = self.ensure_logged_in_or_on_home()
-        ftue_present = self.is_ftue_present() if initial_state in ("home", "ftue_only") else None
+        ftue_present = (
+            self.is_ftue_present()
+            if initial_state in ("home", "ftue_only", "login")
+            else None
+        )
         if initial_state == "home" and ftue_present:
             self.LOGGER.info("CASE: already_logged_in_ftue_present -> performing FTUE flow.")
         if initial_state == "home" and not ftue_present:
             self.LOGGER.info("CASE: already_logged_in_ftue_absent_skip -> skipping FTUE flow.")
             self.LOGGER.info(
                 "User already logged in and no FTUE indicators found. Skipping FTUE flow."
+            )
+            self.LOGGER.info(
+                "Bootstrap timing: skipped FTUE handlers in %.2fs.",
+                time.monotonic() - bootstrap_start,
+            )
+            return
+        if initial_state == "login" and not ftue_present:
+            self.LOGGER.info("CASE: login_completed_ftue_absent_skip -> skipping FTUE flow.")
+            self.LOGGER.info(
+                "User logged in successfully and no FTUE indicators found. Skipping FTUE flow."
+            )
+            self.LOGGER.info(
+                "Bootstrap timing: login completed, FTUE skipped in %.2fs.",
+                time.monotonic() - bootstrap_start,
             )
             return
         if initial_state == "ftue_only":
@@ -516,6 +536,10 @@ class FTUEPage(BasePage):
         self._run_ftue_handler_sequence()
         self.validate_tab_navigation()
         self.handle_wellness_journii_webview()
+        self.LOGGER.info(
+            "Bootstrap timing: FTUE handler sequence completed in %.2fs.",
+            time.monotonic() - bootstrap_start,
+        )
 
     def ensure_logged_in_or_on_home(self):
         self.LOGGER.info("Determining initial app state (Home already logged in vs Login screen).")

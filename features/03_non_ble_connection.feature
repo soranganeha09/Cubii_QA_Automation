@@ -35,6 +35,20 @@ Feature: Cubii Non-BLE end-to-end connection from Home tab
     Then the manual workout form should be saved without validation errors
     And the manual workout confirmation pop-up should display saved workout details
 
+  @non_ble @manual_workout @manual_workout_from_progress
+  Scenario: Add manual workout from Progress tab (Non-BLE)
+    Given the app is launched and user is resolved to home for Non-BLE flow
+    When the user opens Add Manual Workout from Home ensuring Non-BLE connectivity
+    And the user opens In Progress tab
+    And the user clicks on the Add Manual Workout button
+    When the user selects Start Time as a past time and confirms
+    And the user selects Duration and submits
+    And the user enters valid Strides value
+    And the user sets a valid Resistance level
+    And the user taps Save on Add Manual Workout
+    Then the manual workout form should be saved without validation errors
+    And the manual workout confirmation pop-up should display saved workout details
+
   @non_ble @manual_workout @manual_workout_yesterday
   Scenario: Add Manual Workout with yesterday start date (Non-BLE)
    # Given the app is launched and user is resolved to home for Non-BLE flow
@@ -97,19 +111,7 @@ Feature: Cubii Non-BLE end-to-end connection from Home tab
     And the user taps Save on Add Manual Workout
     And the manual workout confirmation pop-up should display saved workout details
 
-  @non_ble @manual_workout @manual_workout_from_progress
-  Scenario: Add manual workout from Progress tab (Non-BLE)
-    Given the app is launched and user is resolved to home for Non-BLE flow
-    When the user opens Add Manual Workout from Home ensuring Non-BLE connectivity
-    And the user opens In Progress tab
-    And the user clicks on the Add Manual Workout button
-    When the user selects Start Time as a past time and confirms
-    And the user selects Duration and submits
-    And the user enters valid Strides value
-    And the user sets a valid Resistance level
-    And the user taps Save on Add Manual Workout
-    Then the manual workout form should be saved without validation errors
-    And the manual workout confirmation pop-up should display saved workout details
+
 
   @non_ble @manual_workout @edit_manual_workout
   Scenario: Edit manual workout from In Progress (Non-BLE)
